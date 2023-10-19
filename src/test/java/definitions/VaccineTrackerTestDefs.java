@@ -14,7 +14,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     private static Response response;
 
 
-    //  Scenario: Retrieve pre-loaded list of vaccines from database
+    // Scenario: Retrieve pre-loaded list of vaccines from database
     @Given("the system has a list of standard vaccines for newborns in the database")
     public void theSystemHasAListOfStandardVaccinesForNewbornsInTheDatabase() {
     }
@@ -31,7 +31,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     }
 
 
-    //  Scenario: Update a vaccine as administered in the database
+    // Scenario: Update a vaccine as administered in the database
     @Given("the system has a list of vaccines")
     public void theSystemHasAListOfVaccines() {
 
@@ -48,7 +48,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     }
 
 
-    //  Scenario: Identify past due vaccines
+    // Scenario: Identify past due vaccines
     @Given("the system has a list of vaccines with due dates")
     public void theSystemHasAListOfVaccinesWithDueDates() {
 

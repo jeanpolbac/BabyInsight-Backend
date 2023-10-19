@@ -3,7 +3,7 @@ Feature: Authentication
   Scenario: User able to access public endpoints
     Given a valid public endpoint
     When I say hello
-    Then "Hello" is shown
+    Then Hello is shown
 
   Scenario: Successful registration
     Given I am on the registration page

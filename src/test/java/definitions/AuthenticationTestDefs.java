@@ -3,8 +3,17 @@ package definitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+
+import java.util.logging.Logger;
 
 public class AuthenticationTestDefs extends TestSetupDefs {
+
+    private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
+
+    private static Response response;
+
+
 
     //Scenario: User able to access public endpoints
     @Given("a valid public endpoint")

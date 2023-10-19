@@ -1,33 +1,63 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# Default ignored files
+/shelf/
+/workspace.xml
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Compiled byte code
+*.class
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
 
 ### IntelliJ IDEA ###
 .idea
+.idea/misc.xml
+.idea/modules.xml
+.idea/photomanagementapp.iml
+.idea/vcs.xml
+.idea/workspace.xml
+
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+# Front-End and Node.js modules
+node_modules/
+dist/
+
+# Java/Spring Boot specific
+target/
+*.properties
+!src/main/resources/application.properties
+!src/main/resources/application-*.properties
+
+
+# Relational databases
+
+*.h2.db
+*.h2.trace.db
+
+# OS-specific
+.DS_Store
+Thumbs.db
 
 ### VS Code ###
 .vscode/
+

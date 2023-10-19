@@ -1,7 +1,4 @@
 Feature: Authentication
-  As a parent
-  I want to securely access my child's health information
-  So that only authorized users can view and modify data
 
   Scenario: User able to access public endpoints
     Given a valid public endpoint

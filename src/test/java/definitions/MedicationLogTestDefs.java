@@ -4,8 +4,16 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+
+import java.util.logging.Logger;
 
 public class MedicationLogTestDefs extends TestSetupDefs {
+
+    private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
+
+    private static Response response;
+
 
 
     @Given("I am on the medication log page")

@@ -3,8 +3,15 @@ package definitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+
+import java.util.logging.Logger;
 
 public class InteractionCheckerTestDefs extends TestSetupDefs{
+
+    private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
+
+    private static Response response;
 
     // Scenario: Input two medications and find interactions
     @Given("I have a predefined list of medication interactions")

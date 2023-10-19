@@ -1,7 +1,4 @@
 Feature: Medication Log
-  As a parent
-  I want to log and track my child's medication
-  So that I can ensure they are given the correct dosage on time
 
   Scenario: Add new medication with all required fields
     Given I am on the medication log page

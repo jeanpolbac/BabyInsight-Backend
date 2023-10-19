@@ -15,7 +15,7 @@ public class MedicationLogTestDefs extends TestSetupDefs {
     private static Response response;
 
 
-
+    // Scenario: Add new medication with all required fields
     @Given("I am on the medication log page")
     public void iAmOnTheMedicationLogPage() {
     }
@@ -30,6 +30,7 @@ public class MedicationLogTestDefs extends TestSetupDefs {
 
     }
 
+    // Scenario: View list of all active medications
     @Given("I have added medications to the log")
     public void iHaveAddedMedicationsToTheLog() {
 
@@ -45,6 +46,7 @@ public class MedicationLogTestDefs extends TestSetupDefs {
 
     }
 
+    // Scenario: Archive completed or expired medications
     @Given("I have completed or expired medications in the active list")
     public void iHaveCompletedOrExpiredMedicationsInTheActiveList() {
 

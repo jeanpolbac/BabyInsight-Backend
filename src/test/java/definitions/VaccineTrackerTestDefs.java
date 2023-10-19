@@ -3,9 +3,15 @@ package definitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+
+import java.util.logging.Logger;
 
 public class VaccineTrackerTestDefs extends TestSetupDefs{
 
+    private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
+
+    private static Response response;
 
 
     //  Scenario: Retrieve pre-loaded list of vaccines from database

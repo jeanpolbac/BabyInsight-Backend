@@ -16,22 +16,25 @@ public class TestSetupDefs {
     // Authentication Endpoints
     public static final String helloEndpoint = "/auth/parents/hello/";
     public static final String registerEndpoint = "/auth/parents/register/";
-    public static final String loginEndpoint= "/auth/parents/login/";
+    public static final String loginEndpoint = "/auth/parents/login/";
 
 
     // Child Management Endpoints
-    public static final String childrenEndpoint = "/api/parents/{parentID}/children";
-    public static final String childEndpoint= "/api/parents/{parent_id}/children/{child_id}";
+    public static final String childrenEndpoint = "/api/parents/{parentID}/children/";
+    public static final String childEndpoint = "/api/parents/{parent_id}/children/{child_id}/";
 
 
     // Vaccines Management Endpoints
     public static final String allVaccinesEndpoint = "/api/vaccines/";
-    public static final String specificChildVaccineEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/{vaccineID}";
-    public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue";
+    public static final String listChildAdministeredVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/";
+
+
+    public static final String specificChildVaccineEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/{vaccineID}/";
+    public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue/";
 
 
     // Interaction Checker Endpoints
-    public static final String interactionEndpoint= "/api/interactions?med1={medicationID1}&med2={medicationID2}/";
+    public static final String interactionEndpoint = "/api/interactions?med1={medicationID1}&med2={medicationID2}/";
 
 
     // Medication Log Endpoints

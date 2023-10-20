@@ -37,6 +37,42 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     }
 
 
+    // Scenario: Retrieve list of administered vaccines for a child
+    @Given("the system has a record of vaccines administered to a child")
+    public void theSystemHasARecordOfVaccinesAdministeredToAChild() {
+        logger.info("Scenario: Retrieve list of administered vaccines for a child - Step: The system has a record of vaccines administered to a child");
+        request = RestAssured.given();
+    }
+
+    @When("a request is made to fetch the list of administered vaccines for the child")
+    public void aRequestIsMadeToFetchTheListOfAdministeredVaccinesForTheChild() {
+        logger.info("Scenario: Retrieve list of administered vaccines for a child - Step: A request is made to fetch the list of administered vaccines for the child");
+        response = request.get(listChildAdministeredVaccinesEndpoint);
+    }
+
+    @Then("the system should return the list of vaccines administered to the child")
+    public void theSystemShouldReturnTheListOfVaccinesAdministeredToTheChild() {
+        logger.info("Scenario: Retrieve list of administered vaccines for a child - Step: The system should return the list of vaccines administered to the child");
+        response.then().statusCode(200);
+    }
+
+
+    // Scenario: Retrieve list of remaining vaccines for a child
+    @Given("the system has a record of vaccines to be administered to a child")
+    public void theSystemHasARecordOfVaccinesToBeAdministeredToAChild() {
+
+    }
+
+    @When("a request is made to fetch the list of remaining vaccines for the child")
+    public void aRequestIsMadeToFetchTheListOfRemainingVaccinesForTheChild() {
+
+    }
+
+    @Then("the system should return the list of vaccines yet to be administered to the child")
+    public void theSystemShouldReturnTheListOfVaccinesYetToBeAdministeredToTheChild() {
+    }
+
+
     // Scenario: Update a vaccine as administered in the database
     @Given("the system has a list of vaccines")
     public void theSystemHasAListOfVaccines() {

@@ -28,7 +28,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
         logger.info("Scenario: Retrieve pre-loaded list of vaccines from database - Step: A request is made to fetch the list of vaccines");
         try {
             response = request.get(allVaccinesEndpoint);
-            logger.info("Received response with status code: " + response.statusCode();
+            logger.info("Received response with status code: " + response.statusCode());
         } catch (Exception e) {
             logger.severe("An error occurred while fetching the list of vaccines: " + e.getMessage());
         }

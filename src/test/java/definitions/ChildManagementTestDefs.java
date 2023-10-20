@@ -46,7 +46,7 @@ public class ChildManagementTestDefs extends TestSetupDefs{
             jsonObject.put("childName", childName);
             jsonObject.put("dateOfBirth", dob);
 
-            response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + childEndpoint);
+            response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + childrenEndpoint);
         } catch (Exception e) {
             logger.warning("Exception occurred: " + e.getMessage());
             Assert.fail("Test failed due to an exception");
@@ -67,7 +67,7 @@ public class ChildManagementTestDefs extends TestSetupDefs{
         logger.info("Scenario: Parent able to view a list of their children - Step: The parent views the list");
         try {
             RequestSpecification request = RestAssured.given();
-            response = request.contentType(ContentType.JSON).get(BASE_URL + port + childEndpoint);
+            response = request.contentType(ContentType.JSON).get(BASE_URL + port + childrenEndpoint);
         } catch (Exception e) {
             logger.warning("Exception occurred: " + e.getMessage());
             Assert.fail("Test failed due to an exception");
@@ -86,13 +86,25 @@ public class ChildManagementTestDefs extends TestSetupDefs{
 
     // Scenario: Parent able to edit a child's details
     @When("the parent edits the child's name to {string}")
-    public void theParentEditsTheChildSNameTo(String childName) {
-        
+    public void theParentEditsTheChildSNameTo(String newName) {
+        logger.info("Scenario: Parent able to edit a child's details - Step: The parent edits the child's name");
+        try {
+            RequestSpecification request = RestAssured.given();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("newName", newName);
+
+            response = request.contentType(ContentType.JSON).body(jsonObject.toString()).put(BASE_URL + port + childEndpoint);
+        } catch (Exception e) {
+            logger.warning("Exception occurred: " + e.getMessage());
+            Assert.fail("Test failed due to an exception");
+        }
     }
 
     @Then("the child's name should be updated to {string}")
-    public void theChildSNameShouldBeUpdatedTo(String childName) {
-        
+    public void theChildSNameShouldBeUpdatedTo(String newName) {
+        logger.info("Scenario: Parent able to edit a child's details - Step: The child's name is updated");
+        Assert.assertEquals(200, response.getStatusCode());
+        Assert.assertEquals(newName, response.jsonPath().getString("newName"));
     }
 
     // Scenario: Parent able to view a child's profile

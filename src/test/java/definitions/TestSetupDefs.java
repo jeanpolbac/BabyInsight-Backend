@@ -19,7 +19,8 @@ public class TestSetupDefs {
 
 
     // Child Management Endpoints
-    public static final String childEndpoint= "/api/parents/{parentID}/children";
+    public static final String childrenEndpoint = "/api/parents/{parentID}/children";
+    public static final String childEndpoint= "/api/parents/{parent_id}/children/{child_id}";
 
 
     // Interaction Checker Endpoints

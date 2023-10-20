@@ -17,7 +17,11 @@ public class TestSetupDefs {
     public static final String registerEndpoint = "/auth/parents/register/";
     public static final String loginEndpoint= "/auth/parents/login/";
 
+
+    // Child Management Endpoints
     public static final String childEndpoint= "/api/parents/{parentID}/children";
+
+
     // Interaction Checker Endpoints
     public static final String interactionEndpoint= "/api/interactions?med1={medicationID1}&med2={medicationID2}/";
 

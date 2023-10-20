@@ -28,6 +28,7 @@ public class TestSetupDefs {
     public static final String allVaccinesEndpoint = "/api/vaccines/";
     public static final String listChildAdministeredVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/";
 
+    public static final String listRemainingVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/remaining/";
 
     public static final String specificChildVaccineEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/{vaccineID}/";
     public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue/";

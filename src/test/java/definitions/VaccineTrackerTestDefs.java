@@ -60,16 +60,20 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     // Scenario: Retrieve list of remaining vaccines for a child
     @Given("the system has a record of vaccines to be administered to a child")
     public void theSystemHasARecordOfVaccinesToBeAdministeredToAChild() {
-
+        logger.info("Scenario: Retrieve list of remaining vaccines for a child - Step: The system has a record of vaccines to be administered to a child");
+        request = RestAssured.given();
     }
 
     @When("a request is made to fetch the list of remaining vaccines for the child")
     public void aRequestIsMadeToFetchTheListOfRemainingVaccinesForTheChild() {
-
+        logger.info("Scenario: Retrieve list of remaining vaccines for a child - Step: A request is made to fetch the list of remaining vaccines for the child");
+        response = request.get(listRemainingVaccinesEndpoint);
     }
 
     @Then("the system should return the list of vaccines yet to be administered to the child")
     public void theSystemShouldReturnTheListOfVaccinesYetToBeAdministeredToTheChild() {
+        logger.info("Scenario: Retrieve list of remaining vaccines for a child - Step: The system should return the list of vaccines yet to be administered to the child");
+        response.then().statusCode(200);
     }
 
 

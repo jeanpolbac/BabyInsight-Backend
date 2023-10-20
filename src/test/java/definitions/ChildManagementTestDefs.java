@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class ChildManagementTestDefs extends TestSetupDefs{
 
-    private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
+    private static final Logger logger = Logger.getLogger(ChildManagementTestDefs.class.getName());
 
     private static Response response;
 
@@ -109,11 +109,22 @@ public class ChildManagementTestDefs extends TestSetupDefs{
 
     // Scenario: Parent able to view a child's profile
     @When("the parent views the profile of {string}")
-    public void theParentViewsTheProfileOf(String childName) {
-        
+    public void theParentViewsTheProfileOf() {
+        logger.info("Scenario: Parent able to view a child's profile - Step: The parent views the profile");
+        try {
+            RequestSpecification request = RestAssured.given();
+            response = request.contentType(ContentType.JSON).get(BASE_URL + port + childEndpoint);
+        } catch (Exception e) {
+            logger.warning("Exception occurred: " + e.getMessage());
+            Assert.fail("Test failed due to an exception");
+        }
     }
 
     @Then("the profile should display the name {string} and date of birth {string}")
     public void theProfileShouldDisplayTheNameAndDateOfBirth(String childName, String dob) {
+        logger.info("Scenario: Parent able to view a child's profile - Step: The profile displays the correct details");
+        JsonPath jsonPath = response.jsonPath();
+        Assert.assertEquals(childName, jsonPath.getString("name"));
+        Assert.assertEquals(dob, jsonPath.getString("dateOfBirth"));
     }
 }

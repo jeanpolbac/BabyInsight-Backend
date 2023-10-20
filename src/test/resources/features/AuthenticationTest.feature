@@ -11,6 +11,6 @@ Feature: Authentication
     Then I should be successfully registered
 
   Scenario: User able to login and receive jwt token
-    Given the registered user exists with credentials "test@email.com" and password "password 12345"
+    Given I am an authenticated user
     When the user details are validated
     Then the user receives a jwt token

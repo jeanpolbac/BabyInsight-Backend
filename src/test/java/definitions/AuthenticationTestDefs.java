@@ -8,8 +8,10 @@ import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -89,20 +91,11 @@ public class AuthenticationTestDefs extends TestSetupDefs {
     }
 
     // Scenario: User able to login and receive jwt token
-    @Given("the registered user exists with credentials {string} and password {string}")
-    public void theRegisteredUserExistsWithCredentialsAndPassword(String emailAddress, String password) {
-        logger.info("Scenario: User able to login and receive jwt token - Step: The registered user exists");
-        try {
-            RequestSpecification request = RestAssured.given();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("emailAddress", emailAddress);
-            jsonObject.put("password", password);
-
-            response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + loginEndpoint);
-        } catch (Exception e) {
-            logger.warning("Exception occurred: " + e.getMessage());
-            Assert.fail("Test failed due to an exception");
-        }
+    @Given("I am an authenticated user")
+    public void iAmAnAuthenticatedUser() throws JSONException {
+        logger.info("Scenario: User able to login and receive jwt token - Step: I am an authenticated user");
+        HttpHeaders headers = createAuthHeaders();
+        RestAssured.given().headers(headers);
     }
 
     @When("the user details are validated")
@@ -116,6 +109,4 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         logger.info("Scenario: User able to login and receive jwt token - Step: The user receives a jwt token");
         Assert.assertNotNull(response.jsonPath().getString("jwt"));
     }
-
-
 }

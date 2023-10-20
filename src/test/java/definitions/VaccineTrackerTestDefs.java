@@ -40,17 +40,20 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     // Scenario: Update a vaccine as administered in the database
     @Given("the system has a list of vaccines")
     public void theSystemHasAListOfVaccines() {
-
+        logger.info("Scenario: Update a vaccine as administered in the database - Step: The system has a list of vaccines");
+        request = RestAssured.given();
     }
 
     @When("the {string} action is triggered for a specific vaccine with a given date")
-    public void theActionIsTriggeredForASpecificVaccineWithAGivenDate(String arg0) {
-
+    public void theActionIsTriggeredForASpecificVaccineWithAGivenDate(String action) {
+        logger.info("Scenario: Update a vaccine as administered in the database - Step: The " + action + " action is triggered for a specific vaccine with a given date");
+        response = request.put("/vaccine/update");
     }
 
     @Then("that vaccine's status should be updated to {string} with the specified date in the database")
-    public void thatVaccineSStatusShouldBeUpdatedToWithTheSpecifiedDateInTheDatabase(String arg0) {
-
+    public void thatVaccineSStatusShouldBeUpdatedToWithTheSpecifiedDateInTheDatabase(String status) {
+        logger.info("Scenario: Update a vaccine as administered in the database - Step: That vaccine's status should be updated to " + status + " with the specified date in the database");
+        response.then().statusCode(200);
     }
 
 

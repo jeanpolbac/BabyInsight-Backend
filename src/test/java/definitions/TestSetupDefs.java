@@ -12,6 +12,7 @@ public class TestSetupDefs {
     // Base URL for testing
     public static final String BASE_URL = "http://localhost:";
 
+
     // Authentication Endpoints
     public static final String helloEndpoint = "/auth/parents/hello/";
     public static final String registerEndpoint = "/auth/parents/register/";
@@ -22,6 +23,7 @@ public class TestSetupDefs {
     public static final String childrenEndpoint = "/api/parents/{parentID}/children";
     public static final String childEndpoint= "/api/parents/{parent_id}/children/{child_id}";
 
+
     // Vaccines Management Endpoints
     public static final String allVaccinesEndpoint = "/api/vaccines/";
 
@@ -29,12 +31,14 @@ public class TestSetupDefs {
     // Interaction Checker Endpoints
     public static final String interactionEndpoint= "/api/interactions?med1={medicationID1}&med2={medicationID2}/";
 
+
     // Medication Log Endpoints
     public static final String allMedicationEndpoint= "/api/medications/{childID}/";
 
 
     // Content-Type Json
     public static final String TypeJson = "application/json";
+
 
     @LocalServerPort
     public String port;

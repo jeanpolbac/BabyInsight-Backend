@@ -13,10 +13,11 @@ public class TestSetupDefs {
     public static final String BASE_URL = "http://localhost:";
 
     // Authentication Endpoints
-    public static final String helloEndpoint = "/auth/users/hello/";
-    public static final String registerEndpoint = "/auth/users/register/";
-    public static final String loginEndpoint= "/auth/users/login/";
+    public static final String helloEndpoint = "/auth/parents/hello/";
+    public static final String registerEndpoint = "/auth/parents/register/";
+    public static final String loginEndpoint= "/auth/parents/login/";
 
+    public static final String childEndpoint= "/api/parents/{parentID}/children";
     // Interaction Checker Endpoints
     public static final String interactionEndpoint= "/api/interactions?med1={medicationID1}&med2={medicationID2}/";
 

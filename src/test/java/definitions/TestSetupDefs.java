@@ -2,8 +2,16 @@ package definitions;
 
 import com.example.babyinsightbackend.BabyInsightBackendApplication;
 import io.cucumber.spring.CucumberContextConfiguration;
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import org.springframework.http.*;
+
 
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = BabyInsightBackendApplication.class)
@@ -49,5 +57,32 @@ public class TestSetupDefs {
     @LocalServerPort
     public String port;
 
+
+    protected HttpHeaders createAuthHeaders() throws JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTToken());
+        headers.add("Content-Type", TypeJson);
+        return headers;
+    }
+
+    protected String getJWTToken() throws JSONException {
+        // Set the base URI and create a request
+        RestAssured.baseURI = BASE_URL + port;
+        RequestSpecification request = RestAssured.given();
+
+        // Set the content-type header to indicate JSON data
+        request.header("Content-Type", TypeJson);
+
+        // Create a JSON request body with user email and password
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("emailAddress", "test@email.com");
+        requestBody.put("password", "password12345");
+
+        // Send a POST request to the authentication endpoint
+        Response response = request.body(requestBody.toString()).post(BASE_URL + port + loginEndpoint);
+
+        // Extract and return the JWT token from the authentication response
+        return response.jsonPath().getString("jwt");
+    }
 
 }

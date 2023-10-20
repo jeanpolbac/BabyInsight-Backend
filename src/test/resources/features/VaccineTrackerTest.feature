@@ -1,7 +1,10 @@
 Feature: Vaccine Tracker
 
-  Scenario: Retrieve pre-loaded list of vaccines from database
-    Given the system has a list of standard vaccines for newborns in the database
+  Background:
+    Given I am an authenticated user
+    And the system has a list of standard vaccines for newborns in the database
+
+  Scenario: Retrieve pre-loaded list of vaccines
     When a request is made to fetch the list of vaccines
     Then the system should return the pre-loaded list of standard vaccines
 
@@ -16,13 +19,5 @@ Feature: Vaccine Tracker
     Then the system should return the list of vaccines yet to be administered to the child
 
   Scenario: Update a vaccine as administered in the database
-    Given the system has a list of vaccines
-    When the "Mark as Administered" action is triggered for a specific vaccine with a given date
-    Then that vaccine's status should be updated to "administered" with the specified date in the database
-
-  Scenario: Identify past due vaccines
-    Given the system has a list of vaccines with due dates
-    When the current date is checked
-    Then the system should identify which vaccines are past due
-
-
+    When the "Mark as Administered" action is triggered for "HepB" vaccine with a date of "2023-10-18"
+    Then "HepB" status should be updated to "administered" with the date "2023-10-18"

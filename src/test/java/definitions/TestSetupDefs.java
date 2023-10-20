@@ -26,6 +26,8 @@ public class TestSetupDefs {
 
     // Vaccines Management Endpoints
     public static final String allVaccinesEndpoint = "/api/vaccines/";
+    public static final String specificChildVaccineEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/{vaccineID}";
+    public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue";
 
 
     // Interaction Checker Endpoints

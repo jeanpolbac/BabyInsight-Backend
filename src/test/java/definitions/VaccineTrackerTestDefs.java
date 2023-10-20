@@ -47,7 +47,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     @When("the {string} action is triggered for a specific vaccine with a given date")
     public void theActionIsTriggeredForASpecificVaccineWithAGivenDate(String action) {
         logger.info("Scenario: Update a vaccine as administered in the database - Step: The " + action + " action is triggered for a specific vaccine with a given date");
-        response = request.put("/vaccine/update");
+        response = request.put(specificChildVaccineEndpoint);
     }
 
     @Then("that vaccine's status should be updated to {string} with the specified date in the database")
@@ -60,15 +60,18 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     // Scenario: Identify past due vaccines
     @Given("the system has a list of vaccines with due dates")
     public void theSystemHasAListOfVaccinesWithDueDates() {
-
+        logger.info("Scenario: Identify past due vaccines - Step: The system has a list of vaccines with due dates");
+        request = RestAssured.given();
     }
 
     @When("the current date is checked")
     public void theCurrentDateIsChecked() {
-
+        logger.info("Scenario: Identify past due vaccines - Step: The current date is checked");
     }
 
     @Then("the system should identify which vaccines are past due")
     public void theSystemShouldIdentifyWhichVaccinesArePastDue() {
+        logger.info("Scenario: Identify past due vaccines - Step: The system should identify which vaccines are past due");
+        response = request.get(overdueVaccinesEndpoint);
     }
 }

@@ -52,7 +52,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     public void aRequestIsMadeToFetchTheListOfAdministeredVaccinesForTheChild() {
         logger.info("Scenario: Retrieve list of administered vaccines for a child - Step: A request is made to fetch the list of administered vaccines for the child");
         try {
-            response = request.get(listChildAdministeredVaccinesEndpoint);
+            response = request.get(childVaccinesEndpoint);
             logger.info("Received response with status code: " + response.statusCode());
         } catch (Exception e) {
             logger.severe("Error fetching list of administered vaccines for the child: " + e.getMessage());
@@ -77,7 +77,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     public void aRequestIsMadeToFetchTheListOfRemainingVaccinesForTheChild() {
         logger.info("Scenario: Retrieve list of remaining vaccines for a child - Step: A request is made to fetch the list of remaining vaccines for the child");
         try {
-            response = request.get(listRemainingVaccinesEndpoint);
+            response = request.get(remainingVaccinesEndpoint);
             logger.info("Received response with status code: " + response.statusCode());
         } catch (Exception e) {
             logger.severe("Error fetching list of remaining vaccines for the child: " + e.getMessage());

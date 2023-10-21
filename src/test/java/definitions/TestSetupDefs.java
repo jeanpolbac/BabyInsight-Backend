@@ -13,6 +13,10 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
 
 
+/**
+ * The TestSetupDefs class is a configuration class for setting up Cucumber tests.
+ * It also includes utility methods for authentication and common setup.
+ */
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = BabyInsightBackendApplication.class)
 public class TestSetupDefs {
@@ -40,10 +44,8 @@ public class TestSetupDefs {
     public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue/";
 
 
-
     // Interaction Checker Endpoints
     public static final String interactionEndpoint = "/api/interactions?med1={medicationID1}&med2={medicationID2}";
-
 
 
     // Medication Log Endpoints
@@ -60,6 +62,11 @@ public class TestSetupDefs {
     public String port;
 
 
+    /**
+     * Creates headers for authenticated requests.
+     * @return a HttpHeaders object with an Authorization header containing a JWT token and a Content-Type header set to application/json
+     * @throws JSONException if there's an error while creating the JSON request body
+     */
     protected HttpHeaders createAuthHeaders() throws JSONException {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + getJWTToken());
@@ -67,6 +74,11 @@ public class TestSetupDefs {
         return headers;
     }
 
+    /**
+     * Retrieves a JWT token for authentication.
+     * @return a JWT token as a String
+     * @throws JSONException if there's an error while creating the JSON request body
+     */
     protected String getJWTToken() throws JSONException {
         // Set the base URI and create a request
         RestAssured.baseURI = BASE_URL + port;
@@ -86,5 +98,4 @@ public class TestSetupDefs {
         // Extract and return the JWT token from the authentication response
         return response.jsonPath().getString("jwt");
     }
-
 }

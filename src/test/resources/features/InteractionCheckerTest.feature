@@ -1,7 +1,7 @@
 Feature: Interaction Checker
 
   Background:
-    Given I am an authenticated user (commented out as in your original file)
+    Given I am an authenticated user
     And I have access to the Drug Interaction API with RXCUIs "207106+152923+656659" and sources "ONCHigh+DrugBank"
 
   Scenario Outline: Check interactions between medications

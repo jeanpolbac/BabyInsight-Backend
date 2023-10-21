@@ -19,13 +19,20 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.logging.Logger;
 
+
+/**
+ * The AuthenticationTestDefs class contains step definitions for Cucumber scenarios
+ * related to authentication and user registration.
+ */
 public class AuthenticationTestDefs extends TestSetupDefs {
 
     private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
-
     private static Response response;
 
 
+    /**
+     * Validates that the public endpoint is accessible.
+     */
     //Scenario: User able to access public endpoints
     @Given("a valid public endpoint")
     public void aValidPublicEndpoint() {
@@ -34,6 +41,9 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         Assert.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
     }
 
+    /**
+     * Sends a request to the public endpoint.
+     */
     @When("I say hello")
     public void iSayHello() {
         logger.info("Scenario: User able to access public endpoints - Step: I say hello");
@@ -42,6 +52,9 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         response = request.get(BASE_URL + port + helloEndpoint);
     }
 
+    /**
+     * Validates that the expected message is returned from the public endpoint.
+     */
     @Then("Hello is shown")
     public void helloIsShown() {
         logger.info("Scenario: User able to access public endpoints - Step: Hello is shown");
@@ -51,6 +64,11 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         Assert.assertEquals("Hello", message);
     }
 
+
+    /**
+     * Navigates to the registration page.
+     * @param register the registration endpoint
+     */
     // Scenario: Successful registration
     @Given("I am on the registration page {string}")
     public void iAmOnTheRegistrationPage(String register) {
@@ -66,7 +84,11 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         assert statusCode == 200 : "Expected status code to be 200, but it was: " + statusCode;
     }
 
-
+    /**
+     * Submits the registration form with a valid email address and strong password.
+     * @param emailAddress the email address
+     * @param password the password
+     */
     @When("I enter a valid email address {string} and a strong password {string}")
     public void iEnterAValidEmailAddressAndAStrongPassword(String emailAddress, String password) {
         logger.info("Scenario: Successful registration - Step: I enter a valid email address and a strong password");
@@ -84,12 +106,19 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         }
     }
 
+    /**
+     * Validates that the registration was successful.
+     */
     @Then("I should be successfully registered")
     public void iShouldBeSuccessfullyRegistered() {
         logger.info("Scenario: Successful registration - Step: I should be successfully registered");
         Assert.assertEquals(201,response.getStatusCode());
     }
 
+
+    /**
+     * Authenticates the user.
+     */
     // Scenario: User able to login and receive jwt token
     @Given("I am an authenticated user")
     public void iAmAnAuthenticatedUser() throws JSONException {
@@ -98,12 +127,18 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         RestAssured.given().headers(headers);
     }
 
+    /**
+     * Validates the user's details.
+     */
     @When("the user details are validated")
     public void theUserDetailsAreValidated() {
         logger.info("Scenario: User able to login and receive jwt token - Step: The user details are validated");
         Assert.assertEquals(200, response.getStatusCode());
     }
 
+    /**
+     * Validates that a JWT token is received upon successful authentication.
+     */
     @Then("the user receives a jwt token")
     public void theUserReceivesAJwtToken() {
         logger.info("Scenario: User able to login and receive jwt token - Step: The user receives a jwt token");

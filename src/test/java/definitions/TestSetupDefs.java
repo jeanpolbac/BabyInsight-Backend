@@ -29,26 +29,28 @@ public class TestSetupDefs {
 
     // Child Management Endpoints
     public static final String childrenEndpoint = "/api/parents/{parentID}/children/";
-    public static final String childEndpoint = "/api/parents/{parent_id}/children/{child_id}/";
+    public static final String childEndpoint = "/api/parents/{parentID}/children/{childID}/";
 
 
     // Vaccines Management Endpoints
     public static final String allVaccinesEndpoint = "/api/vaccines/";
-    public static final String listChildAdministeredVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/";
-
-    public static final String listRemainingVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/remaining/";
-
+    public static final String childVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/";
+    public static final String remainingVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/remaining/";
     public static final String specificChildVaccineEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/{vaccineID}/";
     public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue/";
 
 
+
     // Interaction Checker Endpoints
-    public static final String interactionEndpoint = "/api/interactions?med1={medicationID1}&med2={medicationID2}/";
+    public static final String interactionEndpoint = "/api/interactions?med1={medicationID1}&med2={medicationID2}";
+
 
 
     // Medication Log Endpoints
-    public static final String allMedicationEndpoint= "/api/medications/{childID}/";
-
+    public static final String childMedicationsEndpoint = "/api/children/{childID}/medications/";
+    public static final String addMedicationEndpoint = "/api/medications/add/";
+    public static final String specificMedicationEndpoint = "/api/medications/{medicationID}/";
+    public static final String archivedMedicationsEndpoint = "/api/medications/archived/";
 
     // Content-Type Json
     public static final String TypeJson = "application/json";

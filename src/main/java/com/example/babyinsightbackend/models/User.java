@@ -21,11 +21,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * The display name of the user.
-     */
-    @Column(length = 50, nullable = false)
-    private String userName;
 
     /**
      * The email address associated with the user. Must be unique across all users.
@@ -50,13 +45,11 @@ public class User {
     /**
      * Constructor to initialize a user with specified attributes.
      * @param id The unique identifier for the user.
-     * @param userName The display name of the user.
      * @param emailAddress The email address of the user.
      * @param password The hashed password for the user.
      */
     public User(Long id, String userName, String emailAddress, String password) {
         this.id = id;
-        this.userName = userName;
         this.emailAddress = emailAddress;
         this.password = password;
     }
@@ -79,23 +72,6 @@ public class User {
         this.id = id;
     }
 
-    /**
-     * Gets the display name of the user.
-     *
-     * @return The user's name.
-     */
-    public String getUserName() {
-        return userName;
-    }
-
-    /**
-     * Sets the display name for the user.
-     *
-     * @param userName The user's new name.
-     */
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     /**
      * Gets the email address of the user.
@@ -143,7 +119,6 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", userName='" + userName + '\'' +
                 ", emailAddress='" + emailAddress + '\'' +
                 '}';
     }

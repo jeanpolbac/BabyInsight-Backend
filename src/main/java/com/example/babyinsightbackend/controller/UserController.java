@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody User userObject) {
         User newUser = userService.createUser(userObject);
         if (newUser != null) {
-            logger.info("User successfully created: " + newUser.getUserName());
+            logger.info("User successfully created: " + newUser.getEmailAddress());
             return new ResponseEntity<>("User successfully created.", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Email already exists.", HttpStatus.OK);

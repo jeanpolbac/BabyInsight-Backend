@@ -12,6 +12,8 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import org.springframework.http.*;
 
+import java.util.logging.Logger;
+
 
 /**
  * The TestSetupDefs class is a configuration class for setting up Cucumber tests.
@@ -20,6 +22,8 @@ import org.springframework.http.*;
 @CucumberContextConfiguration
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = BabyInsightBackendApplication.class)
 public class TestSetupDefs {
+
+    private static final Logger logger = Logger.getLogger(TestSetupDefs.class.getName());
 
     // Base URL for testing
     public static final String BASE_URL = "http://localhost:";
@@ -95,7 +99,18 @@ public class TestSetupDefs {
         // Send a POST request to the authentication endpoint
         Response response = request.body(requestBody.toString()).post(BASE_URL + port + loginEndpoint);
 
+        // Debugging: Log the response content and HTTP status
+        String responseBody = response.getBody().asString();
+        logger.info("Response Body: " + responseBody);
+        int statusCode = response.getStatusCode();
+        logger.info("HTTP Status Code: " + statusCode);
+
         // Extract and return the JWT token from the authentication response
-        return response.jsonPath().getString("jwt");
+        // Check for the presence of JWT and extract
+        if (response.jsonPath().get("jwt") != null) {
+            return response.jsonPath().getString("jwt");
+        } else {
+            throw new RuntimeException("JWT not found in the response");
+        }
     }
 }

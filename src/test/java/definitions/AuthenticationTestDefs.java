@@ -1,5 +1,6 @@
 package definitions;
 
+import com.example.babyinsightbackend.models.response.LoginResponse;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -27,9 +28,45 @@ import java.util.logging.Logger;
 public class AuthenticationTestDefs extends TestSetupDefs {
 
     private static final Logger logger = Logger.getLogger(AuthenticationTestDefs.class.getName());
-    private static Response response;
+    private Response response;
 
 
+    /**
+     * Creates headers for authenticated requests.
+     * @return a HttpHeaders object with an Authorization header containing a JWT token and a Content-Type header set to application/json
+     * @throws JSONException if there's an error while creating the JSON request body
+     */
+    protected HttpHeaders createAuthHeaders() throws JSONException {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + getJWTToken());
+        headers.add("Content-Type", TypeJson);
+        return headers;
+    }
+
+    /**
+     * Retrieves a JWT token for authentication.
+     * @return a JWT token as a String
+     * @throws JSONException if there's an error while creating the JSON request body
+     */
+    protected String getJWTToken() throws JSONException {
+        // Set the base URI and create a request
+        RestAssured.baseURI = BASE_URL;
+        RequestSpecification request = RestAssured.given();
+
+        // Set the content-type header to indicate JSON data
+        request.header("Content-Type", TypeJson);
+
+        // Create a JSON request body with user email and password
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("emailAddress", "test@email.com");
+        requestBody.put("password", "password12345");
+
+        // Send a POST request to the authentication endpoint
+        Response response = request.body(requestBody.toString()).post(BASE_URL + port + loginEndpoint);
+
+        // Extract and return the JWT token from the authentication response
+        return response.jsonPath().getString("jwt");
+    }
     /**
      * Validates that the public endpoint is accessible.
      */
@@ -123,8 +160,11 @@ public class AuthenticationTestDefs extends TestSetupDefs {
     @Given("I am an authenticated user")
     public void iAmAnAuthenticatedUser() throws JSONException {
         logger.info("Scenario: User able to login and receive jwt token - Step: I am an authenticated user");
-        HttpHeaders headers = createAuthHeaders();
-        RestAssured.given().headers(headers);
+        RequestSpecification request = RestAssured.given();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("emailAddress", "coolparent@email.com");
+        jsonObject.put("password","password123");
+        response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + loginEndpoint);
     }
 
     /**

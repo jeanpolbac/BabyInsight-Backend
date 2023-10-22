@@ -10,6 +10,7 @@ import javax.persistence.*;
  * This entity contains basic user information like username, email, and password.
  */
 @Entity
+@Table(name = "users")
 public class User {
 
     /**

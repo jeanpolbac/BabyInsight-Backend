@@ -26,7 +26,7 @@ public class TestSetupDefs {
 
 
     // Authentication Endpoints
-    public static final String helloEndpoint = "/auth/parents/hello/";
+    public static final String helloEndpoint = "/hello/";
     public static final String registerEndpoint = "/auth/parents/register/";
     public static final String loginEndpoint = "/auth/parents/login/";
 

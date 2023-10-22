@@ -61,7 +61,7 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         JsonPath jsonPath = response.jsonPath();
         String message = jsonPath.get("message");
         Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertEquals("Hello", message);
+        Assert.assertEquals("Hello World", message);
     }
 
 

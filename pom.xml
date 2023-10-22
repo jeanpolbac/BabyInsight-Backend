@@ -18,35 +18,48 @@
 		<cucumber.version>6.8.1</cucumber.version>
 	</properties>
 	<dependencies>
+		<!-- Spring Boot Starter for Web: Provides support for building web applications -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+		<!-- Spring Boot DevTools: Provides development-time tools -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+
+		<!-- Spring Boot Starter for Testing: Provides support for testing Spring Boot applications -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Spring Security Test: Provides support for testing Spring Security configurations -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Spring Boot Starter for Security: Provides support for Spring Security -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
+		<!-- H2 Database: In-memory database for development and testing -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- Spring Boot Starter for Data JPA: Provides support for Java Persistence API -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -71,41 +84,63 @@
 			<version>0.11.5</version>
 			<scope>runtime</scope>
 		</dependency>
+
+		<!-- Spring Boot Starter for Data REST: Provides support for exposing Spring Data repositories over REST -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
+
+		<!-- Spring Boot Starter for JDBC: Provides support for Java Database Connectivity -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
+
+		<!-- JUnit: Testing framework for Java -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Cucumber Java: Cucumber implementation for Java -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-java</artifactId>
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Cucumber JUnit: Cucumber JUnit integration -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-junit</artifactId>
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Cucumber Spring: Cucumber Spring integration -->
 		<dependency>
 			<groupId>io.cucumber</groupId>
 			<artifactId>cucumber-spring</artifactId>
 			<version>${cucumber.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- Rest Assured: Testing library for REST APIs -->
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
 			<version>4.3.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Mockito JUnit Jupiter: Mockito integration for JUnit 5 -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>3.11.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

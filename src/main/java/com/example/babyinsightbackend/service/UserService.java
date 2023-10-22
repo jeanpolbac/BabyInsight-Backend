@@ -41,4 +41,14 @@ public class UserService {
             throw new InformationExistException("user email address " + userObject.getEmailAddress() + " already exists");
         }
     }
+
+    /**
+     * Fetches a User based on the provided email address.
+     *
+     * @param emailAddress The email address associated with the desired user.
+     * @return User instance associated with the given email address, or null if no such user exists.
+     */
+    public User findByUserEmailAddress(String emailAddress) {
+        return userRepository.findUserByEmailAddress(emailAddress);
+    }
 }

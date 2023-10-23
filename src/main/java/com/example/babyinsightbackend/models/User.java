@@ -1,8 +1,11 @@
 package com.example.babyinsightbackend.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 /**
@@ -36,6 +39,9 @@ public class User {
     private String password;
 
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Child> children;
     /**
      * Default constructor required for JPA.
      */

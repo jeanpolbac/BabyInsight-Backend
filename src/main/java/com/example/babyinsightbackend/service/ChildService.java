@@ -43,11 +43,11 @@ public class ChildService {
     /**
      * Fetches all children related to a specific parent.
      *
-     * @param parentId The parent's user ID.
+     * @param userId The parent's user ID.
      * @return A list of child entities associated with the given parent.
      */
-    public List<Child> getAllChildrenByParentId(Long parentId) {
-        return childRepository.findByParentUserId(parentId);
+    public List<Child> getAllChildrenByParentId(Long userId) {
+        return childRepository.findByUserId(userId);
     }
 
     /**

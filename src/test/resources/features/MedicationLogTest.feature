@@ -12,6 +12,6 @@ Feature: Medication Log
     When I visit the medication log page
     Then I should see a list of all active medications
 
-    Given I have a list of active medications for a child with ID "{childID}"
-    When I archive a medication with ID "{medicationID}"
-    Then the medication with ID "{medicationID}" should be in the archived list
+    Given I have a list of active medications for a child with ID "{childId}"
+    When I archive a medication with ID "{medicationId}"
+    Then the medication with ID "{medicationId}" should be in the archived list

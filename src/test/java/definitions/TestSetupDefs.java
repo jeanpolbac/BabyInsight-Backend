@@ -29,8 +29,8 @@ public class TestSetupDefs {
 
 
     // Child Management Endpoints
-    public static final String childrenEndpoint = "/api/parents/{parentID}/children/";
-    public static final String childEndpoint = "/api/parents/{parentID}/children/{childID}/";
+    public static final String childrenEndpoint = "/api/parents/{userID}/children/";
+    public static final String childEndpoint = "/api/parents/{userID}/children/{childID}/";
 
 
     // Vaccines Management Endpoints

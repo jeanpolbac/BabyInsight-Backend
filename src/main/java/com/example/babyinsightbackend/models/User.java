@@ -5,6 +5,7 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,9 +40,10 @@ public class User {
     private String password;
 
 
+
     @OneToMany(mappedBy = "user", orphanRemoval = true)
     @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Child> children;
+    private List<Child> children = new ArrayList<>();
     /**
      * Default constructor required for JPA.
      */
@@ -113,6 +115,14 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Child> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Child> children) {
+        this.children = children;
     }
 
     /**

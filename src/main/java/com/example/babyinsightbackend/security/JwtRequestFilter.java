@@ -51,8 +51,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String headerAuth = request.getHeader("Authorization");
         if(StringUtils.hasLength(headerAuth) && headerAuth.startsWith("Bearer ")){
             return headerAuth.substring(7);
+        } else {
+            logger.info("JWT Token does not begin with bearer string");
         }
-        logger.info("JWT Token does not begin with bearer string");
         return null;
     }
 

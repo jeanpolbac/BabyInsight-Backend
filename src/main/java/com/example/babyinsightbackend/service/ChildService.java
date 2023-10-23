@@ -32,10 +32,11 @@ public class ChildService {
     /**
      * Adds a new child to the database.
      *
-     * @param child The child entity to be added.
+     * @param userId
+     * @param child  The child entity to be added.
      * @return The added child entity.
      */
-    public Child addChild(Child child) {
+    public Child addChild(Long userId, Child child) {
         return childRepository.save(child);
     }
 
@@ -53,20 +54,22 @@ public class ChildService {
      * Fetches a child by its ID.
      *
      * @param childId The child's ID.
+     * @param childID
      * @return An Optional containing the found child or empty if not found.
      */
-    public Optional<Child> getChildById(Long childId) {
+    public Optional<Child> getChildById(Long childId, Long childID) {
         return childRepository.findById(childId);
     }
 
     /**
      * Updates the details of a specific child.
      *
-     * @param childId       The ID of the child to be updated.
+     * @param childId      The ID of the child to be updated.
+     * @param childID
      * @param updatedChild The child entity with updated details.
      * @return The updated child entity.
      */
-    public Child updateChild(Long childId, Child updatedChild) {
+    public Child updateChild(Long childId, Long childID, Child updatedChild) {
         if (childRepository.existsById(childId)) {
             updatedChild.setId(childId);
             return childRepository.save(updatedChild);
@@ -79,8 +82,9 @@ public class ChildService {
      * Deletes a child entity by its ID.
      *
      * @param childId The ID of the child to be deleted.
+     * @param childID
      */
-    public void deleteChild(Long childId) {
+    public void deleteChild(Long childId, Long childID) {
         if (childRepository.existsById(childId)) {
             childRepository.deleteById(childId);
         } else {

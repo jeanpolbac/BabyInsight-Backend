@@ -1,6 +1,5 @@
 package definitions;
 
-import com.example.babyinsightbackend.models.response.LoginResponse;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -12,7 +11,6 @@ import io.restassured.specification.RequestSpecification;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,42 +29,6 @@ public class AuthenticationTestDefs extends TestSetupDefs {
     private Response response;
 
 
-    /**
-     * Creates headers for authenticated requests.
-     * @return a HttpHeaders object with an Authorization header containing a JWT token and a Content-Type header set to application/json
-     * @throws JSONException if there's an error while creating the JSON request body
-     */
-    protected HttpHeaders createAuthHeaders() throws JSONException {
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + getJWTToken());
-        headers.add("Content-Type", TypeJson);
-        return headers;
-    }
-
-    /**
-     * Retrieves a JWT token for authentication.
-     * @return a JWT token as a String
-     * @throws JSONException if there's an error while creating the JSON request body
-     */
-    protected String getJWTToken() throws JSONException {
-        // Set the base URI and create a request
-        RestAssured.baseURI = BASE_URL;
-        RequestSpecification request = RestAssured.given();
-
-        // Set the content-type header to indicate JSON data
-        request.header("Content-Type", TypeJson);
-
-        // Create a JSON request body with user email and password
-        JSONObject requestBody = new JSONObject();
-        requestBody.put("emailAddress", "test@email.com");
-        requestBody.put("password", "password12345");
-
-        // Send a POST request to the authentication endpoint
-        Response response = request.body(requestBody.toString()).post(BASE_URL + port + loginEndpoint);
-
-        // Extract and return the JWT token from the authentication response
-        return response.jsonPath().getString("jwt");
-    }
     /**
      * Validates that the public endpoint is accessible.
      */

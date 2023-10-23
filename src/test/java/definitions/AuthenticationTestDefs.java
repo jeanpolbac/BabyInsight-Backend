@@ -127,6 +127,8 @@ public class AuthenticationTestDefs extends TestSetupDefs {
         jsonObject.put("emailAddress", "coolparent@email.com");
         jsonObject.put("password","password123");
         response = request.contentType(ContentType.JSON).body(jsonObject.toString()).post(BASE_URL + port + loginEndpoint);
+        token = response.jsonPath().getString("jwt");
+        logger.info("Token: " + token);
     }
 
     /**
@@ -144,6 +146,6 @@ public class AuthenticationTestDefs extends TestSetupDefs {
     @Then("the user receives a jwt token")
     public void theUserReceivesAJwtToken() {
         logger.info("Scenario: User able to login and receive jwt token - Step: The user receives a jwt token");
-        Assert.assertNotNull(response.jsonPath().getString("jwt"));
+        Assert.assertNotNull(token);
     }
 }

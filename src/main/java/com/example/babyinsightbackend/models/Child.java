@@ -18,5 +18,8 @@ public class Child {
     private LocalDate dateOfBirth;
 
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

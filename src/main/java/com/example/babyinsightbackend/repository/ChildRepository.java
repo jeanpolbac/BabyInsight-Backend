@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface ChildRepository extends JpaRepository<Child, Long> {
 
-    List<Child> findByParentUserId(Long userId);
+    List<Child> findByUserId(Long userId);
 
 }

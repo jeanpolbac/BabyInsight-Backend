@@ -4,6 +4,7 @@ import com.example.babyinsightbackend.BabyInsightBackendApplication;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 
 import java.util.logging.Logger;
 
@@ -29,26 +30,26 @@ public class TestSetupDefs {
 
 
     // Child Management Endpoints
-    public static final String childrenEndpoint = "/api/parents/{userID}/children/";
-    public static final String childEndpoint = "/api/parents/{userID}/children/{childID}/";
+    public static final String childrenEndpoint = "/api/users/1/children/";
+    public static final String childEndpoint = "/api/users/{userId}/children/{childId}/";
 
 
     // Vaccines Management Endpoints
     public static final String allVaccinesEndpoint = "/api/vaccines/";
-    public static final String childVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/";
-    public static final String remainingVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/remaining/";
-    public static final String specificChildVaccineEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/{vaccineID}/";
-    public static final String overdueVaccinesEndpoint = "/api/parents/{parentID}/children/{childID}/vaccines/overdue/";
+    public static final String childVaccinesEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/";
+    public static final String remainingVaccinesEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/remaining/";
+    public static final String specificChildVaccineEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/{vaccineID}/";
+    public static final String overdueVaccinesEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/overdue/";
 
 
     // Interaction Checker Endpoints
-    public static final String interactionEndpoint = "/api/interactions?med1={medicationID1}&med2={medicationID2}";
+    public static final String interactionEndpoint = "/api/interactions?med1={medicationId1}&med2={medicationId2}";
 
 
     // Medication Log Endpoints
-    public static final String childMedicationsEndpoint = "/api/children/{childID}/medications/";
+    public static final String childMedicationsEndpoint = "/api/children/{childId}/medications/";
     public static final String addMedicationEndpoint = "/api/medications/add/";
-    public static final String specificMedicationEndpoint = "/api/medications/{medicationID}/";
+    public static final String specificMedicationEndpoint = "/api/medications/{medicationId}/";
     public static final String archivedMedicationsEndpoint = "/api/medications/archived/";
 
     // Content-Type Json
@@ -57,6 +58,19 @@ public class TestSetupDefs {
 
     @LocalServerPort
     public String port;
+
+    protected String token;
+    /**
+     * Creates a HttpHeaders object with the Authorization and Content-Type headers.
+     *
+     * @return the HttpHeaders object
+     */
+    protected HttpHeaders createAuthHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + this.token);
+        headers.add("Content-Type", TypeJson);
+        return headers;
+    }
 
 
 

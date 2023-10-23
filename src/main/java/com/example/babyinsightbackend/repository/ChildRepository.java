@@ -4,6 +4,11 @@ import com.example.babyinsightbackend.models.Child;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public interface ChldRepository extends JpaRepository<Child, Long>
+public interface ChildRepository extends JpaRepository<Child, Long> {
+
+    List<Child> findByParentUserId(Long userId);
+
 }

@@ -27,7 +27,7 @@ public class ChildController {
      * @param child The child details to be added.
      * @return The added child.
      */
-    @PostMapping("/children")
+    @PostMapping("/children/")
     public Child createChild(@PathVariable Long userId, @RequestBody Child child) {
         return childService.addChild(userId, child);
     }
@@ -38,7 +38,7 @@ public class ChildController {
      * @param userId The ID of the parent.
      * @return A list of children.
      */
-    @GetMapping("/children")
+    @GetMapping("/children/")
     public ResponseEntity<?> getAllChildrenByParent(@PathVariable Long userId) {
         List<Child> children = childService.getAllChildrenByParentId(userId);
         if (children.isEmpty()) {
@@ -57,7 +57,7 @@ public class ChildController {
      * @param childId The ID of the child.
      * @return The child details.
      */
-    @GetMapping("/children/{childId}")
+    @GetMapping("/children/{childId}/")
     public Optional<Child> getChildByParent( @PathVariable Long childId) {
         return childService.getChildById(childId);
     }
@@ -65,26 +65,24 @@ public class ChildController {
     /**
      * Update child details for a specific parent.
      *
-     * @param userId The ID of the parent.
      * @param childId The ID of the child.
      * @param child The child details to be updated.
      * @return The updated child.
      */
-    @PutMapping("/children/{childId}")
-    public Child updateChild(@PathVariable Long userId, @PathVariable Long childId, @RequestBody Child child) {
-        return childService.updateChild(userId, childId, child);
+    @PutMapping("/children/{childId}/")
+    public Child updateChild(@PathVariable Long childId, @RequestBody Child child) {
+        return childService.updateChild(childId, child);
     }
 
     /**
      * Delete a child for a specific parent.
      *
-     * @param userId The ID of the parent.
      * @param childId The ID of the child.
      * @return A response indicating success or failure.
      */
-    @DeleteMapping("/children/{childId}")
-    public ResponseEntity<?> deleteChild(@PathVariable Long userId, @PathVariable Long childId) {
-        childService.deleteChild(userId, childId);
+    @DeleteMapping("/children/{childId}/")
+    public ResponseEntity<?> deleteChild(@PathVariable Long childId) {
+        childService.deleteChild(childId);
         return ResponseEntity.ok().build();
     }
 

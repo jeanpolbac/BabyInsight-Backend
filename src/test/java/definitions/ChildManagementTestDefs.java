@@ -1,6 +1,5 @@
 package definitions;
 
-import com.example.babyinsightbackend.exception.InformationNotFoundException;
 import com.example.babyinsightbackend.models.Child;
 import com.example.babyinsightbackend.models.User;
 import com.example.babyinsightbackend.repository.ChildRepository;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
@@ -28,11 +26,7 @@ import static org.junit.Assert.*;
 public class ChildManagementTestDefs extends TestSetupDefs {
 
     private static final Logger logger = Logger.getLogger(ChildManagementTestDefs.class.getName());
-
     private static Response response;
-
-
-
     private User user = new User(1L, "userEmail", "userPassword");
     @Autowired
     private ChildService childService;
@@ -40,8 +34,8 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     private UserRepository userRepository;
     @Autowired
     private ChildRepository childRepository;
-    private Child createdChild;
-    private List<Child> childList;
+    private static Child createdChild;
+    private static List<Child> childList;
     private Child fetchedChild;
 
 
@@ -65,8 +59,8 @@ public class ChildManagementTestDefs extends TestSetupDefs {
         userRepository.save(user);
         childRepository.save(child);
 
-
         createdChild = child;
+        logger.info("Scenario 1 - Step 1 - Created Child: " + createdChild);
     }
 
     /**
@@ -75,9 +69,11 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @Then("the child should be successfully added to the parent's profile")
     public void theChildShouldBeSuccessfullyAddedToTheParentSProfile() {
         logger.info("Scenario: Parent able to add a child to their profile - Step: The child is successfully added");
+        logger.info("Created Child: " + createdChild);
         assertNotNull(createdChild);
         assertNotNull(createdChild.getId());
         assertEquals(user.getId(), createdChild.getUser().getId());
+        logger.info("Scenario 1 - Step 2 - Created Child: " + createdChild.toString());
     }
 
 
@@ -89,6 +85,8 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     public void theParentViewsTheListOfTheirChildren() {
         logger.info("Scenario: Parent able to view a list of their children - Step: The parent views the list");
         childList = childService.getAllChildrenByParentId(user.getId());
+        assertTrue(childList.contains(createdChild));
+        logger.info("Scenario 2 - Step 1: " + createdChild);
     }
 
     /**
@@ -100,7 +98,7 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     public void theListShouldInclude(String childName) {
         logger.info("Scenario: Parent able to view a list of their children - Step: The list should include child");
         assertTrue(childList.stream().anyMatch(child -> child.getName().equals(childName)));
-
+        logger.info("Scenario 2 - Step 2: " + childList);
     }
 
 
@@ -113,11 +111,9 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @Given("the child {string} exists in the parent's profile")
     public void theChildExistsInTheParentsProfile(String childName) {
         logger.info("Scenario: Parent able to edit a child's details - Step: Check if child exists");
-
-        Child child = new Child();
-        child.setName(childName);
-        child.setUser(user);
-        childService.addChild(user.getId(), child);
+        logger.info("Child List GIVEN: " + childList);
+        assertEquals(childName, createdChild.getName());
+        logger.info("Scenario 3 - Step 1: " + createdChild);
     }
 
     /**
@@ -128,14 +124,10 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @When("the parent edits the child's name to {string}")
     public void theParentEditsTheChildSNameTo(String newName) {
         logger.info("Scenario: Parent able to edit a child's details - Step: The parent edits the child's name");
-        Optional<Child> childOptional = childService.getChildByName(createdChild.getName());
-        if (childOptional.isPresent()) {
-            Child childToEdit = childOptional.get();
-            childToEdit.setName(newName);
-            childService.updateChild(childToEdit.getId(), childToEdit);
-        } else {
-            throw new InformationNotFoundException("Child not found");
-        }
+        assertNotNull(createdChild);
+        createdChild.setName(newName);
+        childService.updateChild(createdChild.getId(), createdChild);
+        logger.info("Scenario 3 - Step 2: " + createdChild);
     }
 
     /**
@@ -146,9 +138,10 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @Then("the child's name should be updated to {string}")
     public void theChildSNameShouldBeUpdatedTo(String updatedName) {
         logger.info("Scenario: Parent able to edit a child's details - Step: The child's name is updated");
-        Optional<Child> updatedChild = childService.getChildByName(updatedName);
-        assertTrue(updatedChild.isPresent());
-        assertEquals(updatedName, updatedChild.get().getName());
+        Child updatedChild = childService.getChildById(createdChild.getId()).orElse(null);
+        assertNotNull(updatedChild);
+        assertEquals(updatedName, updatedChild.getName());
+        logger.info("Scenario 3 - Step 3: " + createdChild);
     }
 
 
@@ -163,7 +156,7 @@ public class ChildManagementTestDefs extends TestSetupDefs {
         // Implementation for viewing a child's profile
         logger.info("Scenario: Parent able to view a child's profile - Step: The parent views the profile");
         fetchedChild = childService.getChildByName(childName).orElse(null);
-
+        logger.info("Scenario 4 - Step 1: " + fetchedChild);
     }
 
     /**
@@ -177,6 +170,7 @@ public class ChildManagementTestDefs extends TestSetupDefs {
         logger.info("Scenario: Parent able to view a child's profile - Step: The profile displays the correct details");
         assertNotNull(fetchedChild);
         assertEquals(childName, fetchedChild.getName());
-        assertEquals(dob, fetchedChild.getDateOfBirth());
+        assertEquals(LocalDate.parse(dob), fetchedChild.getDateOfBirth());
+        logger.info("Scenario 4 - Step 2: " + fetchedChild);
     }
 }

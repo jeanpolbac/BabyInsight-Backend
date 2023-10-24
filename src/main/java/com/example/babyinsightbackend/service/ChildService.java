@@ -9,6 +9,7 @@ import com.example.babyinsightbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -115,4 +116,18 @@ public class ChildService {
         }
     }
 
+    /**
+     * Retrieves the date of birth of a child by their ID.
+     *
+     * @param childId The ID of the child.
+     * @return The date of birth of the child or null if not found.
+     */
+    public LocalDate getChildDateOfBirth(Long childId) {
+        Child child = childRepository.findById(childId).orElse(null);
+        if (child != null) {
+            return child.getDateOfBirth();
+        } else {
+            return null;
+        }
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -129,5 +130,19 @@ public class ChildService {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Calculates the age of a child in months based on their date of birth.
+     *
+     * @param childId The ID of the child.
+     * @return The age of the child in months.
+     */
+    public int calculateChildAgeInMonths(Long childId) {
+        LocalDate childDateOfBirth = getChildDateOfBirth(childId);
+        LocalDate currentDate = LocalDate.now();
+        Period period = Period.between(childDateOfBirth, currentDate);
+        int ageInMonths = period.getYears() * 12 + period.getMonths();
+        return ageInMonths;
     }
 }

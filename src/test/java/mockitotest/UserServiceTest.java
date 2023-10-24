@@ -28,7 +28,7 @@ private UserRepository userRepository;
      */
     @Test
     public void testCreateUserSuccessfully() {
-        User user = new User(null, "TestUser", "test@example.com", "password123");
+        User user = new User(null, "test@example.com", "password123");
 
         // Mock the behavior of the userRepository
         when(userRepository.existsByEmailAddress(user.getEmailAddress())).thenReturn(false);

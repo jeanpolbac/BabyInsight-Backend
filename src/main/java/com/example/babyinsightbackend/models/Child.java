@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Represents a child entity with attributes like name, date of birth and associated user.
@@ -28,6 +29,10 @@ public class Child {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // Add a list of administered vaccines
+    @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    private List<Vaccine> administeredVaccines;
+
     /**
      * Default constructor.
      */
@@ -37,14 +42,16 @@ public class Child {
     /**
      * Constructs a Child instance with the given parameters.
      *
-     * @param name        The child's name.
-     * @param dateOfBirth The child's date of birth.
-     * @param user        The associated user of the child.
+     * @param name                 The child's name.
+     * @param dateOfBirth          The child's date of birth.
+     * @param user                 The associated user of the child.
+     * @param administeredVaccines
      */
-    public Child(String name, LocalDate dateOfBirth, User user) {
+    public Child(String name, LocalDate dateOfBirth, User user, List<Vaccine> administeredVaccines) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.user = user;
+        this.administeredVaccines = administeredVaccines;
     }
 
     /**
@@ -117,6 +124,25 @@ public class Child {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+    /**
+     * Returns the list of administered vaccines for the child.
+     *
+     * @return the list of administered vaccines.
+     */
+    public List<Vaccine> getAdministeredVaccines() {
+        return administeredVaccines;
+    }
+
+    /**
+     * Sets the list of administered vaccines for the child.
+     *
+     * @param administeredVaccines The new list of administered vaccines for the child.
+     */
+    public void setAdministeredVaccines(List<Vaccine> administeredVaccines) {
+        this.administeredVaccines = administeredVaccines;
     }
 
     @Override

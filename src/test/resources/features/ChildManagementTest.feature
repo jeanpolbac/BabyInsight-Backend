@@ -17,6 +17,6 @@ Feature: Children Management
     Then the child's name should be updated to "Han Solo Jr."
 
   Scenario: Parent able to view a child's profile
-    Given the child "Han Solo" exists in the parent's profile
-    When the parent views the profile of "Han Solo"
-    Then the profile should display the name "Han Solo" and date of birth "2024-05-04"
+    Given the child "Han Solo Jr." exists in the parent's profile
+    When the parent views the profile of "Han Solo Jr."
+    Then the profile should display the name "Han Solo Jr." and date of birth "2024-05-04"

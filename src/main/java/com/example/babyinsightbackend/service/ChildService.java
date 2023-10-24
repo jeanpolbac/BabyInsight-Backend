@@ -75,6 +75,16 @@ public class ChildService {
         return childRepository.findById(childId);
     }
 
+
+    /**
+     * Fetches a child by its name
+     *
+     * @param name
+     * @return
+     */
+    public Optional<Child> getChildByName(String name) {
+        return childRepository.findByName(name);
+    }
     /**
      * Updates the details of a specific child.
      *
@@ -95,7 +105,7 @@ public class ChildService {
      * Deletes a child entity by its ID.
      *
      * @param childId The ID of the child to be deleted.
-     * @param id
+     *
      */
     public void deleteChild(Long childId) {
         if (childRepository.existsById(childId)) {

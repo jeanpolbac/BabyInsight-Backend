@@ -1,17 +1,18 @@
 package com.example.babyinsightbackend.repository;
 
-import com.example.babyinsightbackend.models.Child;
 import com.example.babyinsightbackend.models.Vaccine;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository interface for managing Vaccine entities.
  */
 @Repository
-public interface VaccineRepository {
+public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
 
     /**
      * Find all vaccines administered to a specific child.
@@ -19,7 +20,7 @@ public interface VaccineRepository {
      * @param child The child for whom vaccines are to be retrieved.
      * @return A list of vaccines administered to the child.
      */
-    List<Vaccine> findByChild(Child child);
+    List<Vaccine> findByChild(Long child);
 
 
     /**
@@ -39,4 +40,11 @@ public interface VaccineRepository {
      */
     List<Vaccine> findByDateAdministeredAfter(LocalDate date);
 
+    void deleteById(Long vaccineId);
+
+    Vaccine save(Vaccine updatedVaccine);
+
+    Optional<Vaccine> findById(Long vaccineId);
+
+    List<Vaccine> findAll();
 }

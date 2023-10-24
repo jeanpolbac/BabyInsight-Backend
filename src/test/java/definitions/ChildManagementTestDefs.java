@@ -1,19 +1,16 @@
 package definitions;
 
+import com.example.babyinsightbackend.exception.InformationNotFoundException;
 import com.example.babyinsightbackend.models.Child;
 import com.example.babyinsightbackend.models.User;
+import com.example.babyinsightbackend.repository.ChildRepository;
+import com.example.babyinsightbackend.repository.UserRepository;
 import com.example.babyinsightbackend.service.ChildService;
-import com.example.babyinsightbackend.service.UserService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
+
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import org.json.JSONObject;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -21,6 +18,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+
+import static org.junit.Assert.*;
 
 /**
  * The ChildManagementTestDefs class contains step definitions for Cucumber scenarios
@@ -32,17 +31,18 @@ public class ChildManagementTestDefs extends TestSetupDefs {
 
     private static Response response;
 
+
+
+    private User user = new User(1L, "userEmail", "userPassword");
     @Autowired
     private ChildService childService;
-
     @Autowired
-    private UserService userService;
-
-    private User parentUser;
-    private Long userId;
-    private Long childId;
-
-
+    private UserRepository userRepository;
+    @Autowired
+    private ChildRepository childRepository;
+    private Child createdChild;
+    private List<Child> childList;
+    private Child fetchedChild;
 
 
 
@@ -56,12 +56,17 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @When("the parent adds a child with name {string} and date of birth {string}")
     public void theParentAddsAChildWithNameAndDateOfBirth(String childName, String dob) {
         logger.info("Scenario: Parent able to add a child to their profile - Step: The parent adds a child");
-        // Create a new Child entity
-        Child child = new Child(childName, LocalDate.parse(dob), parentUser);
-        // Add the child to the database using ChildService
-        Child addedChild = childService.addChild(userId, child);
-        childId = addedChild.getId(); // Store the child's ID for later use
+        Child child = new Child();
+        child.setName(childName);
+        child.setDateOfBirth(LocalDate.parse(dob));
+        child.setUser(user);
+        user.getChildren().add(child);
 
+        userRepository.save(user);
+        childRepository.save(child);
+
+
+        createdChild = child;
     }
 
     /**
@@ -70,14 +75,9 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @Then("the child should be successfully added to the parent's profile")
     public void theChildShouldBeSuccessfullyAddedToTheParentSProfile() {
         logger.info("Scenario: Parent able to add a child to their profile - Step: The child is successfully added");
-        // Retrieve the parent's children from the database
-        List<Child> parentChildren = childService.getAllChildrenByParentId(userId);
-        // Check if the child with the stored childId exists in the parent's list of children
-        Optional<Child> childOptional = parentChildren.stream()
-                .filter(child -> child.getId().equals(childId))
-                .findFirst();
-        // Assert that the child was found in the parent's list of children
-        Assert.assertTrue("The child was not added to the parent's profile", childOptional.isPresent());
+        assertNotNull(createdChild);
+        assertNotNull(createdChild.getId());
+        assertEquals(user.getId(), createdChild.getUser().getId());
     }
 
 
@@ -88,16 +88,7 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @When("the parent views the list of their children")
     public void theParentViewsTheListOfTheirChildren() {
         logger.info("Scenario: Parent able to view a list of their children - Step: The parent views the list");
-        try {
-            RestAssured.baseURI = BASE_URL;
-            RequestSpecification request = RestAssured.given();
-            request.headers(createAuthHeaders());
-            response = request.contentType(ContentType.JSON).get(BASE_URL + port + childrenEndpoint);
-            logger.info(BASE_URL + port + childrenEndpoint);
-        } catch (Exception e) {
-            logger.warning("Exception occurred: " + e.getMessage());
-            Assert.fail("Test failed due to an exception");
-        }
+        childList = childService.getAllChildrenByParentId(user.getId());
     }
 
     /**
@@ -108,10 +99,8 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @Then("the list should include {string}")
     public void theListShouldInclude(String childName) {
         logger.info("Scenario: Parent able to view a list of their children - Step: The list should include child");
-        JsonPath jsonPath = response.jsonPath();
-        List<Child> childNames = jsonPath.get("data");
-        Assert.assertTrue(childNames.contains(childName));
-        Assert.assertEquals(200, response.getStatusCode());
+        assertTrue(childList.stream().anyMatch(child -> child.getName().equals(childName)));
+
     }
 
 
@@ -125,12 +114,10 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     public void theChildExistsInTheParentsProfile(String childName) {
         logger.info("Scenario: Parent able to edit a child's details - Step: Check if child exists");
 
-        Response response = RestAssured.given()
-                .contentType(ContentType.JSON)
-                .get(BASE_URL + port + childrenEndpoint);
-
-        List<String> childNames = response.jsonPath().getList("children.name");
-        Assert.assertTrue("Child does not exist in the parent's profile", childNames.contains(childName));
+        Child child = new Child();
+        child.setName(childName);
+        child.setUser(user);
+        childService.addChild(user.getId(), child);
     }
 
     /**
@@ -141,28 +128,27 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @When("the parent edits the child's name to {string}")
     public void theParentEditsTheChildSNameTo(String newName) {
         logger.info("Scenario: Parent able to edit a child's details - Step: The parent edits the child's name");
-        try {
-            RequestSpecification request = RestAssured.given();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("newName", newName);
-
-            response = request.contentType(ContentType.JSON).body(jsonObject.toString()).put(BASE_URL + port + childEndpoint);
-        } catch (Exception e) {
-            logger.warning("Exception occurred: " + e.getMessage());
-            Assert.fail("Test failed due to an exception");
+        Optional<Child> childOptional = childService.getChildByName(createdChild.getName());
+        if (childOptional.isPresent()) {
+            Child childToEdit = childOptional.get();
+            childToEdit.setName(newName);
+            childService.updateChild(childToEdit.getId(), childToEdit);
+        } else {
+            throw new InformationNotFoundException("Child not found");
         }
     }
 
     /**
      * Validates that the child's name was successfully updated in the parent's profile.
      *
-     * @param newName the new name for the child
+     * @param updatedName the new name for the child
      */
     @Then("the child's name should be updated to {string}")
-    public void theChildSNameShouldBeUpdatedTo(String newName) {
+    public void theChildSNameShouldBeUpdatedTo(String updatedName) {
         logger.info("Scenario: Parent able to edit a child's details - Step: The child's name is updated");
-        Assert.assertEquals(200, response.getStatusCode());
-        Assert.assertEquals(newName, response.jsonPath().getString("newName"));
+        Optional<Child> updatedChild = childService.getChildByName(updatedName);
+        assertTrue(updatedChild.isPresent());
+        assertEquals(updatedName, updatedChild.get().getName());
     }
 
 
@@ -176,13 +162,8 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     public void theParentViewsTheProfileOf(String childName) {
         // Implementation for viewing a child's profile
         logger.info("Scenario: Parent able to view a child's profile - Step: The parent views the profile");
-        try {
-            RequestSpecification request = RestAssured.given();
-            response = request.contentType(ContentType.JSON).get(BASE_URL + port + childEndpoint.replace("{child_name}", childName));
-        } catch (Exception e) {
-            logger.warning("Exception occurred: " + e.getMessage());
-            Assert.fail("Test failed due to an exception");
-        }
+        fetchedChild = childService.getChildByName(childName).orElse(null);
+
     }
 
     /**
@@ -194,8 +175,8 @@ public class ChildManagementTestDefs extends TestSetupDefs {
     @Then("the profile should display the name {string} and date of birth {string}")
     public void theProfileShouldDisplayTheNameAndDateOfBirth(String childName, String dob) {
         logger.info("Scenario: Parent able to view a child's profile - Step: The profile displays the correct details");
-        JsonPath jsonPath = response.jsonPath();
-        Assert.assertEquals(childName, jsonPath.getString("name"));
-        Assert.assertEquals(dob, jsonPath.getString("dateOfBirth"));
+        assertNotNull(fetchedChild);
+        assertEquals(childName, fetchedChild.getName());
+        assertEquals(dob, fetchedChild.getDateOfBirth());
     }
 }

@@ -41,7 +41,7 @@ public class User {
 
 
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Child> children = new ArrayList<>();
     /**
@@ -56,11 +56,13 @@ public class User {
      * @param emailAddress The email address of the user.
      * @param password The hashed password for the user.
      */
-    public User(Long id, String userName, String emailAddress, String password) {
+    public User(Long id, String emailAddress, String password) {
         this.id = id;
         this.emailAddress = emailAddress;
         this.password = password;
     }
+
+
 
     /**
      * Gets the unique identifier for the user.

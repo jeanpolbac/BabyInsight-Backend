@@ -1,6 +1,8 @@
 package com.example.babyinsightbackend.service;
 
 import com.example.babyinsightbackend.exception.InformationExistException;
+import com.example.babyinsightbackend.exception.InformationNotFoundException;
+import com.example.babyinsightbackend.exception.InvalidPasswordException;
 import com.example.babyinsightbackend.models.User;
 import com.example.babyinsightbackend.models.request.LoginRequest;
 import com.example.babyinsightbackend.repository.UserRepository;
@@ -10,13 +12,16 @@ import com.example.babyinsightbackend.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.logging.Logger;
 
 
 /**
@@ -24,6 +29,8 @@ import java.util.Optional;
  */
 @Service
 public class UserService {
+
+    private static final Logger logger = Logger.getLogger(UserService.class.getName());
 
     private final UserRepository userRepository;
 
@@ -70,6 +77,8 @@ public class UserService {
      *
      * @param loginRequest The login request containing the user's email address and password.
      * @return An Optional containing the JWT token if authentication is successful, or an empty Optional if authentication fails.
+     * @throws InformationNotFoundException If the email address is not found in the database.
+     * @throws InvalidPasswordException If the provided password is incorrect.
      */
     public Optional<String> loginUser(LoginRequest loginRequest) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(), loginRequest.getPassword());
@@ -78,7 +87,12 @@ public class UserService {
             SecurityContextHolder.getContext().setAuthentication(authentication);
             MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
             return Optional.of(jwtUtils.generateJwtToken(myUserDetails));
+        }  catch (UsernameNotFoundException e) {
+            throw new InformationNotFoundException("User not found");
+        } catch (BadCredentialsException e) {
+            throw new InvalidPasswordException("Invalid password");
         } catch (Exception e) {
+            logger.warning( "An unexpected error occurred " + e.getMessage());
             return Optional.empty();
         }
     }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -76,6 +77,17 @@ public class ChildService {
      */
     public Optional<Child> getChildById(Long childId) {
         return childRepository.findById(childId);
+    }
+
+    /**
+     * Fetches a child by its ID, throws an exception if the child is not found.
+     *
+     * @param childId The ID of the child to be found.
+     * @return The Child object corresponding to the given ID.
+     * @throws EntityNotFoundException If the child with the given ID does not exist.
+     */
+    public Child findChildById(Long childId) {
+        return childRepository.findById(childId).orElseThrow(() -> new EntityNotFoundException("Child not found"));
     }
 
 

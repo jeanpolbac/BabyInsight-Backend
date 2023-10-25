@@ -1,5 +1,6 @@
 package com.example.babyinsightbackend.controller;
 
+import com.example.babyinsightbackend.exception.InformationExistException;
 import com.example.babyinsightbackend.models.Child;
 import com.example.babyinsightbackend.service.ChildService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+
+/**
+ * Controller class for managing Child entities.
+ *
+ */
 @RestController
 @RequestMapping("/api/users/{userId}")
 public class ChildController {
@@ -37,17 +43,21 @@ public class ChildController {
      *
      * @param userId The ID of the parent.
      * @return A list of children.
+     *  @throws InformationExistException if the User entity is not found.
+     *  @throws Exception for any other unexpected errors.
      */
     @GetMapping("/children/")
     public ResponseEntity<?> getAllChildrenByParent(@PathVariable Long userId) {
         try {
             List<Child> children = childService.getAllChildrenByParentId(userId);
             if (children.isEmpty()) {
-                return new ResponseEntity<>("Cannot find any children", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("No children found for the given user ID: " + userId, HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(children, HttpStatus.OK);
+        } catch (InformationExistException e) {
+            return new ResponseEntity<>("User not found with ID: " + userId, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -82,8 +92,14 @@ public class ChildController {
      */
     @DeleteMapping("/children/{childId}/")
     public ResponseEntity<?> deleteChild(@PathVariable Long childId) {
-        childService.deleteChild(childId);
-        return ResponseEntity.ok().build();
+        try {
+            childService.deleteChild(childId);
+            return ResponseEntity.ok().build();
+        } catch (InformationExistException e) {
+            return new ResponseEntity<>("Child not found with ID: " + childId, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An unexpected error occurred: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }

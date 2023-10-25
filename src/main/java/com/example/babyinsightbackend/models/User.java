@@ -41,7 +41,10 @@ public class User {
     private String password;
 
 
-
+    /**
+     * List of children associated with the user.
+     * Each child is represented by a Child entity.
+     */
     @JsonManagedReference
     @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.FALSE)
@@ -65,7 +68,6 @@ public class User {
     }
 
 
-
     /**
      * Gets the unique identifier for the user.
      *
@@ -83,7 +85,6 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     /**
      * Gets the email address of the user.
@@ -121,10 +122,20 @@ public class User {
         this.password = password;
     }
 
+    /**
+     * Gets the list of children associated with the user.
+     *
+     * @return A list of Child entities.
+     */
     public List<Child> getChildren() {
         return children;
     }
 
+    /**
+     * Sets the list of children for the user.
+     *
+     * @param children A list of new Child entities to be associated with the user.
+     */
     public void setChildren(List<Child> children) {
         this.children = children;
     }

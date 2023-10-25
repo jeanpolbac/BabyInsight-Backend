@@ -14,5 +14,5 @@ public interface ChildRepository extends JpaRepository<Child, Long> {
 
     Optional<Child> findByName(String name);
 
-
+    Child findByIdAndUserId(Long childId, Long userId);
 }

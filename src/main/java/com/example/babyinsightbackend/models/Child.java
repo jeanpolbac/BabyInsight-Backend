@@ -1,6 +1,7 @@
 package com.example.babyinsightbackend.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,12 +25,17 @@ public class Child {
     private LocalDate dateOfBirth;
 
 
+    @JsonBackReference
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id")
     private User user;
 
-    // Add a list of administered vaccines
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
+    private List<Vaccine> vaccines;
+
+    @JsonManagedReference
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
     private List<Vaccine> administeredVaccines;
 
@@ -45,12 +51,14 @@ public class Child {
      * @param name                 The child's name.
      * @param dateOfBirth          The child's date of birth.
      * @param user                 The associated user of the child.
+     * @param vaccines
      * @param administeredVaccines
      */
-    public Child(String name, LocalDate dateOfBirth, User user, List<Vaccine> administeredVaccines) {
+    public Child(String name, LocalDate dateOfBirth, User user, List<Vaccine> vaccines, List<Vaccine> administeredVaccines) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.user = user;
+        this.vaccines = vaccines;
         this.administeredVaccines = administeredVaccines;
     }
 
@@ -60,6 +68,7 @@ public class Child {
      * @return the child's ID.
      */
     public Long getId() {
+
         return id;
     }
 
@@ -143,6 +152,14 @@ public class Child {
      */
     public void setAdministeredVaccines(List<Vaccine> administeredVaccines) {
         this.administeredVaccines = administeredVaccines;
+    }
+
+    public List<Vaccine> getVaccines() {
+        return vaccines;
+    }
+
+    public void setVaccines(List<Vaccine> vaccines) {
+        this.vaccines = vaccines;
     }
 
     @Override

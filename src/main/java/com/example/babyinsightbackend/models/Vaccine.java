@@ -1,5 +1,7 @@
 package com.example.babyinsightbackend.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -16,26 +18,29 @@ public class Vaccine {
     private String name;
 
     @Column
-    private String recommendedAge;
+    private int recommendedAge;
 
     @Column
     private LocalDate dateAdministered;
 
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "child_id")
     private Child child;
 
 
+
     public Vaccine() {
     }
 
-    public Vaccine(Long vaccineId, String name, String recommendedAge, LocalDate dateAdministered) {
+    public Vaccine(Long vaccineId, String name, int recommendedAge, LocalDate dateAdministered) {
         this.vaccineId = vaccineId;
         this.name = name;
         this.recommendedAge = recommendedAge;
         this.dateAdministered = dateAdministered;
     }
+
 
     public Long getVaccineId() {
         return vaccineId;
@@ -54,12 +59,12 @@ public class Vaccine {
         this.name = name;
     }
 
-    public String getRecommendedAge() {
+    public int getRecommendedAge() {
         return recommendedAge;
     }
 
     public void setRecommendedAge(String recommendedAge) {
-        this.recommendedAge = recommendedAge;
+        this.recommendedAge = Integer.parseInt(recommendedAge);
     }
 
     public LocalDate getDateAdministered() {

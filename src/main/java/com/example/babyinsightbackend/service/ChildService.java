@@ -8,6 +8,7 @@ import com.example.babyinsightbackend.repository.ChildRepository;
 import com.example.babyinsightbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -44,14 +45,14 @@ public class ChildService {
      * @param child  The child entity to be added.
      * @return The added child entity.
      */
+    @Transactional
     public Child addChild(Long userId, Child child) {
         Optional<User> optionalUser = userRepository.findById(userId);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             child.setUser(user);
             user.getChildren().add(child);
-            userRepository.save(user);
-            return child;
+            return childRepository.save(child);
         } else {
             throw new InformationNotFoundException("User with id " + userId + " not found");
         }

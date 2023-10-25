@@ -1,5 +1,6 @@
 package com.example.babyinsightbackend.repository;
 
+import com.example.babyinsightbackend.models.Child;
 import com.example.babyinsightbackend.models.Vaccine;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,10 +17,10 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     /**
      * Find all vaccines administered to a specific child.
      *
-     * @param childId The child for whom vaccines are to be retrieved.
+     * @param child The child for whom vaccines are to be retrieved.
      * @return A list of vaccines administered to the child.
      */
-    List<Vaccine> findByChild(Long childId);
+    List<Vaccine> findByChild(Child child);
 
 
     /**

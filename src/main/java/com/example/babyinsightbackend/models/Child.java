@@ -25,16 +25,24 @@ public class Child {
     private LocalDate dateOfBirth;
 
 
+    /**
+     * The associated user of the child.
+     */
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-
+    /**
+     * The list of vaccines required for the child.
+     */
     @JsonManagedReference
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
     private List<Vaccine> vaccines;
 
+    /**
+     * The list of vaccines already administered to the child.
+     */
     @JsonManagedReference
     @OneToMany(mappedBy = "child", cascade = CascadeType.ALL)
     private List<Vaccine> administeredVaccines;
@@ -51,9 +59,10 @@ public class Child {
      * @param name                 The child's name.
      * @param dateOfBirth          The child's date of birth.
      * @param user                 The associated user of the child.
-     * @param vaccines
-     * @param administeredVaccines
+     * @param vaccines             The list of vaccines required for the child.
+     * @param administeredVaccines The list of vaccines already administered to the child.
      */
+
     public Child(String name, LocalDate dateOfBirth, User user, List<Vaccine> vaccines, List<Vaccine> administeredVaccines) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
@@ -154,14 +163,30 @@ public class Child {
         this.administeredVaccines = administeredVaccines;
     }
 
+    /**
+     * Returns the list of vaccines required for the child.
+     *
+     * @return the list of vaccines.
+     */
     public List<Vaccine> getVaccines() {
         return vaccines;
     }
 
+    /**
+     * Sets the list of vaccines required for the child.
+     *
+     * @param vaccines The new list of vaccines required for the child.
+     */
     public void setVaccines(List<Vaccine> vaccines) {
         this.vaccines = vaccines;
     }
 
+
+    /**
+     * Returns the string representation of the Child object.
+     *
+     * @return A string containing the child's ID, name, date of birth, and associated user.
+     */
     @Override
     public String toString() {
         return "Child{" +

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Repository interface for managing Vaccine entities.
@@ -17,10 +16,10 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
     /**
      * Find all vaccines administered to a specific child.
      *
-     * @param child The child for whom vaccines are to be retrieved.
+     * @param childId The child for whom vaccines are to be retrieved.
      * @return A list of vaccines administered to the child.
      */
-    List<Vaccine> findByChild(Long child);
+    List<Vaccine> findByChild(Long childId);
 
 
     /**
@@ -39,12 +38,4 @@ public interface VaccineRepository extends JpaRepository<Vaccine, Long> {
      * @return A list of vaccines administered after the specified date.
      */
     List<Vaccine> findByDateAdministeredAfter(LocalDate date);
-
-    void deleteById(Long vaccineId);
-
-    Vaccine save(Vaccine updatedVaccine);
-
-    Optional<Vaccine> findById(Long vaccineId);
-
-    List<Vaccine> findAll();
 }

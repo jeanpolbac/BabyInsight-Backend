@@ -30,16 +30,16 @@ public class TestSetupDefs {
 
 
     // Child Management Endpoints
-    public static final String childrenEndpoint = "/api/users/1/children/";
+    public static final String childrenEndpoint = "/api/users/{userId}/children/";
     public static final String childEndpoint = "/api/users/{userId}/children/{childId}/";
 
 
     // Vaccines Management Endpoints
     public static final String allVaccinesEndpoint = "/api/vaccines/";
-    public static final String childVaccinesEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/";
-    public static final String remainingVaccinesEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/remaining/";
-    public static final String specificChildVaccineEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/{vaccineID}/";
-    public static final String overdueVaccinesEndpoint = "/api/parents/{userId}/children/{childId}/vaccines/overdue/";
+    public static final String childVaccinesEndpoint = "/api/users/{userId}/children/{childId}/vaccines/";
+    public static final String remainingVaccinesEndpoint = "/api/users/{userId}/children/{childId}/vaccines/remaining/";
+    public static final String specificChildVaccineEndpoint = "/api/users/{userId}/children/{childId}/vaccines/{vaccineID}/";
+    public static final String overdueVaccinesEndpoint = "/api/users/{userId}/children/{childId}/vaccines/overdue/";
 
 
     // Interaction Checker Endpoints
@@ -59,7 +59,7 @@ public class TestSetupDefs {
     @LocalServerPort
     public String port;
 
-    protected String token;
+    protected static String token;
     /**
      * Creates a HttpHeaders object with the Authorization and Content-Type headers.
      *
@@ -67,7 +67,7 @@ public class TestSetupDefs {
      */
     protected HttpHeaders createAuthHeaders() {
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + this.token);
+        headers.add("Authorization", "Bearer " + token);
         headers.add("Content-Type", TypeJson);
         return headers;
     }

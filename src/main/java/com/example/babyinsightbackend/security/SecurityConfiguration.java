@@ -58,8 +58,8 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable()
                 .headers().frameOptions().disable();
-
-        http.addFilterBefore(authJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+                http.cors();
+                http.addFilterBefore(authJwtRequestFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("/api/users/{userId}")
 public class ChildController {
 
-    static HashMap<String, Object> message = new HashMap<>();
+    HashMap<String, Object> message = new HashMap<>();
 
     @Autowired
     private ChildService childService;
@@ -40,14 +40,14 @@ public class ChildController {
      */
     @GetMapping("/children/")
     public ResponseEntity<?> getAllChildrenByParent(@PathVariable Long userId) {
-        List<Child> children = childService.getAllChildrenByParentId(userId);
-        if (children.isEmpty()) {
-            message.put("message", "cannot find any children");
-            return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
-        } else {
-            message.put("message", "success");
-            message.put("data", children);
-            return new ResponseEntity<>(message, HttpStatus.OK);
+        try {
+            List<Child> children = childService.getAllChildrenByParentId(userId);
+            if (children.isEmpty()) {
+                return new ResponseEntity<>("Cannot find any children", HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(children, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

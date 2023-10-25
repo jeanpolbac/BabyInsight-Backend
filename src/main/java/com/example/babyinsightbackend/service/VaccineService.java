@@ -35,18 +35,37 @@ public class VaccineService {
     }
 
     /**
-     * Adds a new vaccine to the database.
+     * Adds a new vaccine record to the database for a specific child.
      *
-     * @param vaccine The vaccine entity to be added.
-     * @return The added vaccine entity.
+     * @param vaccine The Vaccine entity that needs to be added. Must not be null.
+     * @param child   The Child entity to which the vaccine will be associated. Must not be null and should exist in the database.
+     * @return The newly added Vaccine entity, associated with the given child.
+     * @throws InformationNotFoundException If the child with the given ID is not found in the database.
+     * @throws RuntimeException If an unexpected error occurs during the operation.
      */
     @Transactional
     public Vaccine addVaccine(Vaccine vaccine, Child child) {
-        Child foundChild = childRepository.findById(child.getId())
-                .orElseThrow(() -> new InformationNotFoundException("Child not found")); // Assuming you have a ChildNotFoundException
-        vaccine.setChild(foundChild);
-        return vaccineRepository.save(vaccine);
+        try {
+            logger.info("Attempting to add a new vaccine for child ID: " + child.getId());
+
+            Child foundChild = childRepository.findById(child.getId())
+                    .orElseThrow(() -> {
+                        logger.severe("Child with ID: " + child.getId() + " not found.");
+                        return new InformationNotFoundException("Child not found");
+                    });
+
+            vaccine.setChild(foundChild);
+            return vaccineRepository.save(vaccine);
+
+        } catch (InformationNotFoundException e) {
+            logger.warning("Information not found: " + e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.severe("An error occurred in addVaccine: " + e.getMessage());
+            throw new RuntimeException("An error occurred while adding vaccine");
+        }
     }
+
     /**
      * Retrieves all vaccines from the database.
      *
@@ -155,7 +174,6 @@ public class VaccineService {
                 remainingVaccines.add(requiredVaccine);
             }
         }
-
         return remainingVaccines;
     }
 
@@ -198,37 +216,44 @@ public class VaccineService {
      *
      * @param userId  The ID of the user (parent) associated with the child.
      * @param childId The ID of the child for whom overdue vaccines are requested.
-     * @return A list of overdue vaccine entities for the child.
+     * @return A list of overdue vaccine entities for the child. Returns an empty list if an error occurs.
+     * @throws Exception Logs an exception message if an error occurs during execution.
      */
     public List<Vaccine> getOverdueChildVaccines(Long userId, Long childId) {
-        // Retrieve the child's age in months based on their date of birth
-        int childAgeInMonths = childService.calculateChildAgeInMonths(childId);
-        logger.info("Child's age in months: " + childAgeInMonths);
+        try {
+            // Retrieve the child's age in months based on their date of birth
+            int childAgeInMonths = childService.calculateChildAgeInMonths(childId);
+            logger.info("Child's age in months: " + childAgeInMonths);
 
-        // Retrieve the list of vaccines required for the child's age
-        List<Vaccine> requiredVaccines = getRequiredVaccinesForChildByAge(childAgeInMonths);
+            // Retrieve the Child object
+            Child child = childService.findChildById(childId);
 
-        // Retrieve the list of vaccines already administered to the child
-        List<Vaccine> administeredVaccines = vaccineRepository.findByChild(childId);
+            // Retrieve the list of vaccines required for the child's age
+            List<Vaccine> requiredVaccines = getRequiredVaccinesForChildByAge(childAgeInMonths);
 
-        // Create a list to store overdue vaccines
-        List<Vaccine> overdueVaccines = new ArrayList<>();
+            // Retrieve the list of vaccines already administered to the child
+            List<Vaccine> administeredVaccines = vaccineRepository.findByChild(child);
 
-        // Compare the required vaccines with the administered vaccines to find overdue ones
-        for (Vaccine requiredVaccine : requiredVaccines) {
-            boolean vaccineAdministered = false;
-            for (Vaccine administeredVaccine : administeredVaccines) {
-                if (requiredVaccine.getName().equals(administeredVaccine.getName())) {
-                    vaccineAdministered = true;
-                    break;
+            // Create a list to store overdue vaccines
+            List<Vaccine> overdueVaccines = new ArrayList<>();
+
+            for (Vaccine requiredVaccine : requiredVaccines) {
+                boolean vaccineAdministered = false;
+                for (Vaccine administeredVaccine : administeredVaccines) {
+                    if (requiredVaccine.getName().equals(administeredVaccine.getName())) {
+                        vaccineAdministered = true;
+                        break;
+                    }
+                }
+                if (!vaccineAdministered) {
+                    overdueVaccines.add(requiredVaccine);
                 }
             }
-            if (!vaccineAdministered) {
-                overdueVaccines.add(requiredVaccine);
-            }
+            return overdueVaccines;
+        } catch (Exception e) {
+            logger.info("Error in getOverdueChildVaccines" + e.getMessage());
+            return Collections.emptyList();
         }
-
-        return overdueVaccines;
     }
 
     /**
@@ -271,8 +296,6 @@ public class VaccineService {
             vaccines.add(new Vaccine(null, "Chickenpox (Varicella) - 1st dose", 12, null));
             vaccines.add(new Vaccine(null, "Hepatitis A (HepA) - 1st dose", 12, null));
         }
-
-
         return vaccines;
     }
 }

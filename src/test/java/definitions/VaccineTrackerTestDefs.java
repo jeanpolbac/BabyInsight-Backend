@@ -167,7 +167,7 @@ public class VaccineTrackerTestDefs extends TestSetupDefs{
     public void aRequestIsMadeToFetchTheListOfAdministeredVaccinesForTheChild() {
         logger.info("Fetching administered vaccines for child: " + child);
         Child child = childRepository.findById(1L).orElse(null);
-        fetchedAdministeredVaccines = vaccineRepository.findByChild(child.getId());
+        fetchedAdministeredVaccines = vaccineRepository.findByChild(child);
         logger.info("Fetched administered vaccines: " + fetchedAdministeredVaccines);
     }
 

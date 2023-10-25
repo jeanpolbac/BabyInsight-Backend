@@ -91,6 +91,39 @@ public class UserDataLoader implements CommandLineRunner {
             // Set the list of administered vaccines for the child
             child1.setAdministeredVaccines(administeredVaccines);
 
+
+
+            // Calculate the date of birth for a 10-month-old child
+            LocalDate tenMonthsAgo = LocalDate.now().minusMonths(10);
+
+            // Create Child 2 with a fun Star Wars-inspired name
+            Child child2 = new Child();
+            child2.setName("Luke Skywalker"); // Change the name to a fun Star Wars-inspired name
+            child2.setDateOfBirth(tenMonthsAgo);
+            child2.setUser(user1);
+
+            // Add the second child to the user's list of children
+            user1.getChildren().add(child2);
+
+            // Create administered vaccines for Child 2
+            Vaccine administeredVaccine3 = new Vaccine();
+            administeredVaccine3.setName("Vaccine for Luke Skywalker - Administered 1");
+            administeredVaccine3.setDateAdministered(LocalDate.now());
+            administeredVaccine3.setChild(child2);
+
+            Vaccine administeredVaccine4 = new Vaccine();
+            administeredVaccine4.setName("Vaccine for Luke Skywalker - Administered 2");
+            administeredVaccine4.setDateAdministered(LocalDate.now());
+            administeredVaccine4.setChild(child2);
+
+            // Create a list of administered vaccines for Child 2
+            List<Vaccine> administeredVaccinesChild2 = new ArrayList<>();
+            administeredVaccinesChild2.add(administeredVaccine3);
+            administeredVaccinesChild2.add(administeredVaccine4);
+
+            // Set the list of administered vaccines for Child 2
+            child2.setAdministeredVaccines(administeredVaccinesChild2);
+            
             // Save the user and child data to the repositories
             userRepository.save(user1);
             childRepository.save(child1);

@@ -1,5 +1,8 @@
 package com.example.babyinsightbackend.controller;
 
+import com.example.babyinsightbackend.exception.InformationExistException;
+import com.example.babyinsightbackend.exception.InformationNotFoundException;
+import com.example.babyinsightbackend.exception.InvalidPasswordException;
 import com.example.babyinsightbackend.models.User;
 import com.example.babyinsightbackend.models.request.LoginRequest;
 import com.example.babyinsightbackend.models.response.LoginResponse;
@@ -23,10 +26,18 @@ import java.util.logging.Logger;
 @RequestMapping("/auth/users")
 public class UserController {
 
+    /**
+     * Service for handling user-related operations.
+     */
     @Autowired
     private UserService userService;
 
+
+    /**
+     * Logger for logging events and errors.
+     */
     Logger logger = Logger.getLogger(UserController.class.getName());
+
 
     /**
      * Endpoint for user registration.
@@ -37,12 +48,13 @@ public class UserController {
      */
     @PostMapping(path = "/register/")
     public ResponseEntity<?> createUser(@RequestBody User userObject) {
-        User newUser = userService.createUser(userObject);
-        if (newUser != null) {
+        try {
+            User newUser = userService.createUser(userObject);
             logger.info("User successfully created: " + newUser.getEmailAddress());
             return new ResponseEntity<>("User successfully created.", HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>("Email already exists.", HttpStatus.OK);
+        } catch (InformationExistException e) {
+            logger.warning("Email already exists: " + userObject.getEmailAddress());
+            return new ResponseEntity<>("Email already exists.", HttpStatus.CONFLICT);
         }
     }
 
@@ -56,14 +68,24 @@ public class UserController {
      */
     @PostMapping(path = "/login/")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest){
-        Optional<String> jwtToken = userService.loginUser(loginRequest);
-        if(jwtToken.isPresent()){
-            logger.info("Authentication is good for user " + loginRequest.getEmailAddress());
-            return ResponseEntity.ok(new LoginResponse(jwtToken.get()));
-        }
-        else{
-            logger.warning("Authentication failed for user " + loginRequest.getEmailAddress());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Authentication failed"));
+        try {
+            Optional<String> jwtToken = userService.loginUser(loginRequest);
+            if (jwtToken.isPresent()) {
+                logger.info("Authentication successful for user " + loginRequest.getEmailAddress());
+                return ResponseEntity.ok(new LoginResponse(jwtToken.get()));
+            } else {
+                logger.warning("Authentication failed for user " + loginRequest.getEmailAddress());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Authentication failed"));
+            }
+        } catch (InformationNotFoundException e) {
+            logger.warning("User not found: " + loginRequest.getEmailAddress());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new LoginResponse("User not found"));
+        } catch (InvalidPasswordException e) {
+            logger.warning("Invalid password for user " + loginRequest.getEmailAddress());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new LoginResponse("Invalid password"));
+        } catch (Exception e) {
+            logger.severe("An unexpected error occurred: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginResponse("An unexpected error occurred"));
         }
     }
 }

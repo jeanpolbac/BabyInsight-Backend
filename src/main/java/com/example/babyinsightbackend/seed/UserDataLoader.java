@@ -61,7 +61,7 @@ public class UserDataLoader implements CommandLineRunner {
             // Create a new user
             User user1 = new User();
             user1.setEmailAddress("coolparent@email.com");
-            user1.setPassword(passwordEncoder.encode("password123"));
+            user1.setPassword(passwordEncoder.encode("password1234"));
 
             // Create a new child associated with the user
             Child child1 = new Child();

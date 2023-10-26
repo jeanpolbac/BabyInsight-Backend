@@ -103,6 +103,38 @@ public class UserController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new LoginResponse("An unexpected error occurred"));
 //        }
 //    }
+//    @PostMapping(path = "/login/")
+//    public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+//        Map<String, String> response = new HashMap<>();
+//        try {
+//            Optional<String> jwtToken = userService.loginUser(loginRequest);
+//            if (jwtToken.isPresent()) {
+//                logger.info("Authentication successful for user " + loginRequest.getEmailAddress());
+//                User loggedInUser = userService.getCurrentLoggedInUser();
+//                LoginResponse loginResponse = new LoginResponse(jwtToken.get(), loggedInUser);
+//                response.put("token", jwtToken.get());
+//                response.put("message", "Authentication successful.");
+//                return new ResponseEntity<>(loginResponse, HttpStatus.OK);
+//            } else {
+//                logger.warning("Authentication failed for user " + loginRequest.getEmailAddress());
+//                response.put("message", "Authentication failed.");
+//                return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+//            }
+//        } catch (InformationNotFoundException e) {
+//            logger.warning("User not found: " + loginRequest.getEmailAddress());
+//            response.put("message", "User not found.");
+//            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//        } catch (InvalidPasswordException e) {
+//            logger.warning("Invalid password for user " + loginRequest.getEmailAddress());
+//            response.put("message", "Invalid password.");
+//            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+//        } catch (Exception e) {
+//            logger.severe("An unexpected error occurred: " + e.getMessage());
+//            response.put("message", "An unexpected error occurred.");
+//            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
     @PostMapping(path = "/login/")
     public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
         Map<String, String> response = new HashMap<>();
@@ -110,9 +142,17 @@ public class UserController {
             Optional<String> jwtToken = userService.loginUser(loginRequest);
             if (jwtToken.isPresent()) {
                 logger.info("Authentication successful for user " + loginRequest.getEmailAddress());
+
+                // Fetch the current logged-in user
+                User loggedInUser = userService.getCurrentLoggedInUser();
+
+                // Construct the LoginResponse with the JWT token and user object
+                LoginResponse loginResponse = new LoginResponse(jwtToken.get(), loggedInUser);
+
                 response.put("token", jwtToken.get());
                 response.put("message", "Authentication successful.");
-                return new ResponseEntity<>(response, HttpStatus.OK);
+
+                return new ResponseEntity<>(loginResponse, HttpStatus.OK);
             } else {
                 logger.warning("Authentication failed for user " + loginRequest.getEmailAddress());
                 response.put("message", "Authentication failed.");

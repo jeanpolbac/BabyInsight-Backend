@@ -59,6 +59,10 @@ public class Vaccine {
         this.dateAdministered = dateAdministered;
     }
 
+    public Vaccine() {
+
+    }
+
     /**
      * Get the unique identifier for the vaccine.
      *

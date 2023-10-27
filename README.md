@@ -4,14 +4,32 @@
 
 🚧 **This project is currently in development.** 🚧
 
+---
+
 ## Description
 This is the backend repository for the BabyInsight project, designed to help parents manage and track important aspects of their child's healthcare. Features include authentication, a dashboard for a quick overview, a vaccine tracker, a medication log, and an interaction checker.
 
+---
+
+## Table of Contents
+- [Related Repositories](#related-repositories)
+- [User Centric Design](#user-centric-design)
+- [Features](#features)
+- [Project Approach](#project-approach)
+- [ERD Diagram for Database Design](#erd-diagram-for-database-design)
+- [Planning Documentation](#planning-documentation)
+- [Technologies Used](#hurdles-encountered-during-development)
+- [Model View Controller Design (MVC)](#model-view-controller-design-mvc)
+- [Rest API Endpoints](#rest-api-endpoints)
+- [Hurdles Encountered During Development](#hurdles-encountered-during-development)
+- [Reflection on the Capstone Project](#reflection-on-the-capstone-project)
+- [Future Enhancements](#future-enhancements)
+- [Resources & Acknowledgements](#resources--acknowledgements)
+
+---
+
 ## Related Repositories
 For the frontend part of this project, please visit [BabyInsight - Frontend](https://github.com/jeanpolbac/BabyInsight-Frontend).
-
-## Planning Documentation
-For detailed planning and task breakdown, please visit our [Trello Board](https://trello.com/b/PMlxH7hu).
 
 ---
 
@@ -69,16 +87,6 @@ Our project starts with a focus on user stories, ensuring that every feature and
 
 ---
 
-## User-Centric Design
-To model our data structure effectively, we've created an Entity-Relationship Diagram (ERD). This visual representation maps out the relationships between various entities in our system, such as users, child profiles, vaccines, and medications. The ERD serves as a blueprint for our database design, ensuring that data is organized and structured efficiently.
-
-![ERD](assets%2Ferd-babyinsight.png)
----
-
-## Planning Documentation
-For detailed planning and task breakdown, please visit our [Trello Board](https://trello.com/b/PMlxH7hu).
-
----
 
 ## Features
 
@@ -132,6 +140,36 @@ The true reward for this project lies in the knowledge that it may help parents 
 
 ---
 
+## ERD Diagram for Database Design
+To model our data structure effectively, we've created an Entity-Relationship Diagram (ERD). This visual representation maps out the relationships between various entities in our system, such as users, child profiles, vaccines, and medications. The ERD serves as a blueprint for our database design, ensuring that data is organized and structured efficiently.
+
+![ERD](assets%2Ferd-babyinsight.png)
+
+---
+
+## Planning Documentation
+For detailed planning and task breakdown, please visit our [Trello Board](https://trello.com/b/PMlxH7hu).
+
+---
+
+## Tools and Technologies Used
+- **IntelliJ IDEA/Java 17:** IDE used in conjunction with Java SDK.
+  - **Maven:** Powerful build automation tool and dependency management framework for Java projects.
+- **Postman:** API platform for building and using APIs.
+- **Spring Boot:** [Version 2.7.16](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent/2.7.16) Powers the backend.
+  - **Tomcat Server:** Hosts the application.
+  - **Spring Security:** Ensures data security.
+  - **Spring RESTful API:** Offers user-friendly interaction.
+  - **MVC Architecture:** Follows a clean code structure.
+- **H2 Database:**  Manages data storage.
+- **JWT Tokens:** [Version 0.11.5](https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api/0.11.5) Provides authentication and authorization.
+- **Cucumber JVM:** [Version 6.8.1](https://mvnrepository.com/artifact/io.cucumber/cucumber-java/6.8.1) Testing framework that supports Behavior Driven Development.
+- **REST Assured:** [Version 4.3.0](https://mvnrepository.com/artifact/io.rest-assured/rest-assured/4.3.0) Java library that provides a domain-specific language for writing powerful, maintainable test for RESTful APIs.
+- **Documentation:** Well-documented codebase.
+- **GitHub:** Version control and collaboration platform.
+
+--- 
+
 ### Model View Controller Design (MVC)
 Implement MVC Architecture to aid in separation of concerns.
 
@@ -141,7 +179,7 @@ Implement MVC Architecture to aid in separation of concerns.
 
 ---
 
-### REST API Endpoints with OpenAPI Documentation
+### REST API Endpoints
 Our application's functionality is exposed through a set of REST API endpoints. These endpoints are meticulously designed to provide users with seamless access to BabyInsight's features.
 Here's a glimpse of some of the key API endpoints:
 
@@ -171,25 +209,7 @@ In order to maintain code quality and reliability, I've integrated Cucumber test
 
 ---
 
-## Tools and Technologies Used
-- **IntelliJ IDEA/Java 17:** IDE used in conjunction with Java SDK.
-    - **Maven:** Powerful build automation tool and dependency management framework for Java projects.
-- **Postman:** API platform for building and using APIs.
-- **Spring Boot:** [Version 2.7.16](https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-parent/2.7.16) Powers the backend.
-    - **Tomcat Server:** Hosts the application.
-    - **Spring Security:** Ensures data security.
-    - **Spring RESTful API:** Offers user-friendly interaction.
-    - **MVC Architecture:** Follows a clean code structure.
-- **H2 Database:**  Manages data storage.
-- **JWT Tokens:** [Version 0.11.5](https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api/0.11.5) Provides authentication and authorization.
-- **Cucumber JVM:** [Version 6.8.1](https://mvnrepository.com/artifact/io.cucumber/cucumber-java/6.8.1) Testing framework that supports Behavior Driven Development.
-- **REST Assured:** [Version 4.3.0](https://mvnrepository.com/artifact/io.rest-assured/rest-assured/4.3.0) Java library that provides a domain-specific language for writing powerful, maintainable test for RESTful APIs.
-- **Documentation:** Well-documented codebase.
-- **GitHub:** Version control and collaboration platform.
-
----
-
-## Challenges Encountered During Development
+## Hurdles Encountered During Development
 
 ### Spring Security Setup
 
@@ -230,6 +250,30 @@ The ups and downs of this project have only strengthened my passion for software
 While this project has tested my patience and resilience, it has also reaffirmed my commitment to pursuing a career in software engineering. It's not just a job; it's a vocation that brings me joy and satisfaction.
 
 As I navigate the ever-evolving landscape of technology and development, I carry with me the valuable experiences and lessons learned during this Capstone project. It's a reminder that even in the face of challenges, my passion for this field remains unwavering.
+
+---
+
+## Future Enhancements
+### Medication Logger
+- Allow users to log medication details for each child.
+- Include medication name, dosage, frequency, and any special instructions.
+- Option to upload a picture of the medication or prescription for reference.
+
+### Reminders to Refill
+- Send notifications to users when it's time to refill a medication.
+- Option to set custom reminder dates.
+- Integrate with calendar apps for seamless reminders.
+
+### Medication Interaction Checker
+- Implement a feature that identifies any potential issues between medications that a child might be taking.
+- Display warnings for potentially harmful interactions.
+- Option to consult a healthcare professional through the app.
+
+### RxNorm API Integration
+- Connect to the RxNorm API to retrieve a list of all medications.
+- Implement auto-complete suggestions when logging a new medication.
+- Provide additional information about each medication such as side-effects, generic alternatives, etc.
+
 
 ---
 

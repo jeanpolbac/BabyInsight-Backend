@@ -53,13 +53,13 @@ public class VaccineController {
     }
 
     // Endpoint to retrieve vaccines for a specific child of a parent
-    @GetMapping("/users/{userId}/children/{childId}/vaccines")
+    @GetMapping("/users/{userId}/children/{childId}/vaccines/administered/")
     public List<Vaccine> getChildVaccines(@PathVariable Long userId, @PathVariable Long childId) {
         return vaccineService.getChildVaccines(userId, childId);
     }
 
     // Endpoint to retrieve remaining vaccines for a specific child of a parent
-    @GetMapping("/users/{userId}/children/{childId}/vaccines/remaining")
+    @GetMapping("/users/{userId}/children/{childId}/vaccines/remaining/")
     public List<Vaccine> getRemainingChildVaccines(@PathVariable Long userId, @PathVariable Long childId) {
         return vaccineService.getRemainingChildVaccines(userId, childId);
     }
@@ -72,7 +72,7 @@ public class VaccineController {
     }
 
     // Endpoint to retrieve overdue vaccines for a specific child of a parent
-    @GetMapping("/users/{userId}/children/{childId}/vaccines/overdue")
+    @GetMapping("/users/{userId}/children/{childId}/vaccines/overdue/")
     public List<Vaccine> getOverdueChildVaccines(@PathVariable Long userId, @PathVariable Long childId) {
         return vaccineService.getOverdueChildVaccines(userId, childId);
     }
